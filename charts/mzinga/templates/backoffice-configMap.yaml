@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.backoffice.name }}-customization
+  labels:
+    helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+  annotations:
+    releaseTime: {{ dateInZone "2006-01-02T15:04:05Z" (now) "UTC" | quote }}
+data:
+{{- toYaml .Values.backoffice.customization | nindent 2 }}

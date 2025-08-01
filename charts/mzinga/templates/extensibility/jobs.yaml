@@ -1,0 +1,122 @@
+{{- if .Values.copy_files_hook.enabled }}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Values.copy_files_hook.name }}-job
+  labels:
+    helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+  annotations:
+    releaseTime: {{ dateInZone "2006-01-02T15:04:05Z" (now) "UTC" | quote }}
+    helm.sh/hook: post-install
+    {{- if not .Values.copy_files_hook.debug }}
+    helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
+    {{- end }}
+    helm.sh/hook-weight: "-1"
+spec:
+  ttlSecondsAfterFinished: 300
+  template:
+    metadata:
+      name: {{ .Values.copy_files_hook.name }}-job
+    spec:
+      containers:
+      - name: copy-files
+        image: ubuntu:20.04
+        envFrom:
+        - secretRef:
+            name: {{ .Values.copy_files_hook.name }}-secrets
+        env:
+          - name: TIER
+            value: {{ .Values.tenant.tier }}
+          - name: TENANT
+            value: {{ .Values.tenant.name }}
+        command: [ "/bin/bash", "-c", "/app/scripts/copy_files.sh" ]
+        volumeMounts:
+          - name: config-volume
+            mountPath: /app/scripts
+          - mountPath: "/app/{{ .Values.tenant.name }}/extensibility-basic"
+            name: extensibility-basic
+          - mountPath: "/app/{{ .Values.tenant.name }}/extensibility-pro"
+            name: extensibility-pro
+          - mountPath: "/app/{{ .Values.tenant.name }}/extensibility-ultra"
+            name: extensibility-ultra
+      volumes:
+        - name: config-volume
+          configMap:
+            name: {{ .Values.copy_files_hook.name }}-hook-script
+            defaultMode: 484
+        - name: extensibility-basic
+          persistentVolumeClaim:
+            claimName: {{ .Values.tenant.name }}-pvc-basic
+        - name: extensibility-pro
+          persistentVolumeClaim:
+            claimName: {{ .Values.tenant.name }}-pvc-pro
+        - name: extensibility-ultra
+          persistentVolumeClaim:
+            claimName: {{ .Values.tenant.name }}-pvc-ultra
+      restartPolicy: Never
+      {{-  with concat .Values.copy_files_hook.tolerations .Values.tolerations }}
+      tolerations:
+      {{- toYaml . | nindent 6 }}
+      {{- end }}
+  backoffLimit: 4
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ .Values.copy_files_hook.name }}-cron-job
+  labels:
+    helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+spec:
+  schedule: "@yearly"
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          name: {{ .Values.copy_files_hook.name }}-cron-job
+        spec:
+          containers:
+          - name: copy-files
+            image: ubuntu:20.04
+            envFrom:
+            - secretRef:
+                name: {{ .Values.copy_files_hook.name }}-secrets
+            env:
+              - name: TIER
+                value: {{ .Values.tenant.tier }}
+              - name: TENANT
+                value: {{ .Values.tenant.name }}
+            command: [ "/bin/bash", "-c", "/app/scripts/copy_files.sh" ]
+            volumeMounts:
+              - name: config-volume
+                mountPath: /app/scripts
+              - mountPath: "/app/{{ .Values.tenant.name }}/extensibility-basic"
+                name: extensibility-basic
+              - mountPath: "/app/{{ .Values.tenant.name }}/extensibility-pro"
+                name: extensibility-pro
+              - mountPath: "/app/{{ .Values.tenant.name }}/extensibility-ultra"
+                name: extensibility-ultra
+          volumes:
+            - name: config-volume
+              configMap:
+                name: {{ .Values.copy_files_hook.name }}-hook-script
+                defaultMode: 484
+            - name: extensibility-basic
+              persistentVolumeClaim:
+                claimName: {{ .Values.tenant.name }}-pvc-basic
+            - name: extensibility-pro
+              persistentVolumeClaim:
+                claimName: {{ .Values.tenant.name }}-pvc-pro
+            - name: extensibility-ultra
+              persistentVolumeClaim:
+                claimName: {{ .Values.tenant.name }}-pvc-ultra
+          restartPolicy: Never
+          {{-  with concat .Values.copy_files_hook.tolerations .Values.tolerations }}
+          tolerations:
+          {{- toYaml . | nindent 10 }}
+          {{- end }}
+      backoffLimit: 4
+---
+{{- end }}

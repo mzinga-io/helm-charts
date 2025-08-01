@@ -1,0 +1,1060 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "properties": {
+        "api": {
+            "type": "object",
+            "properties": {
+                "affinity": {
+                    "type": "object",
+                    "properties": {
+                        "nodeAffinity": {
+                            "type": "object",
+                            "properties": {
+                                "requiredDuringSchedulingIgnoredDuringExecution": {
+                                    "type": "object",
+                                    "properties": {
+                                        "nodeSelectorTerms": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "matchExpressions": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "object",
+                                                            "properties": {
+                                                                "key": {
+                                                                    "type": "string"
+                                                                },
+                                                                "operator": {
+                                                                    "type": "string"
+                                                                },
+                                                                "values": {
+                                                                    "type": "array",
+                                                                    "items": {
+                                                                        "type": "string"
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "api_key": {
+                    "type": "string"
+                },
+                "customization": {
+                    "type": "object",
+                    "properties": {
+                        "PAYLOAD_PUBLIC_DISABLED_ENTITIES_SLUGS": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "image": {
+                    "type": "object",
+                    "properties": {
+                        "registry": {
+                            "type": "string"
+                        },
+                        "repository": {
+                            "type": "string"
+                        },
+                        "tag": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "ingress": {
+                    "type": "object",
+                    "properties": {
+                        "annotations": {
+                            "type": "object",
+                            "properties": {
+                                "cert-manager.io/cluster-issuer": {
+                                    "type": "string"
+                                },
+                                "kubernetes.io/ingress.allow-http": {
+                                    "type": "string"
+                                },
+                                "kubernetes.io/ingress.class": {
+                                    "type": "string"
+                                },
+                                "kubernetes.io/tls-acme": {
+                                    "type": "string"
+                                },
+                                "nginx.ingress.kubernetes.io/proxy-body-size": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "name": {
+                    "type": "string"
+                },
+                "otel_console_exporter": {
+                    "type": "string"
+                },
+                "otel_log_level": {
+                    "type": "string"
+                },
+                "publicURL": {
+                    "type": "string"
+                },
+                "replicas": {
+                    "type": "integer"
+                },
+                "resources": {
+                    "type": "object",
+                    "properties": {
+                        "limits": {
+                            "type": "object",
+                            "properties": {
+                                "cpu": {
+                                    "type": "integer"
+                                },
+                                "memory": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "requests": {
+                            "type": "object",
+                            "properties": {
+                                "cpu": {
+                                    "type": "number"
+                                },
+                                "memory": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tolerations": {
+                    "type": "array"
+                }
+            }
+        },
+        "backoffice": {
+            "type": "object",
+            "properties": {
+                "affinity": {
+                    "type": "object",
+                    "properties": {
+                        "nodeAffinity": {
+                            "type": "object",
+                            "properties": {
+                                "requiredDuringSchedulingIgnoredDuringExecution": {
+                                    "type": "object",
+                                    "properties": {
+                                        "nodeSelectorTerms": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "matchExpressions": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "object",
+                                                            "properties": {
+                                                                "key": {
+                                                                    "type": "string"
+                                                                },
+                                                                "operator": {
+                                                                    "type": "string"
+                                                                },
+                                                                "values": {
+                                                                    "type": "array",
+                                                                    "items": {
+                                                                        "type": "string"
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "customization": {
+                    "type": "object",
+                    "properties": {
+                        "PAYLOAD_PUBLIC_CUSTOM_ICON_SRC": {
+                            "type": "string"
+                        },
+                        "PAYLOAD_PUBLIC_CUSTOM_LOGO_SRC": {
+                            "type": "string"
+                        },
+                        "PAYLOAD_PUBLIC_DISABLED_ENTITIES_SLUGS": {
+                            "type": "string"
+                        },
+                        "PAYLOAD_PUBLIC_DISABLE_LOCAL_STRATEGY": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "image": {
+                    "type": "object",
+                    "properties": {
+                        "registry": {
+                            "type": "string"
+                        },
+                        "repository": {
+                            "type": "string"
+                        },
+                        "tag": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "ingress": {
+                    "type": "object",
+                    "properties": {
+                        "annotations": {
+                            "type": "object",
+                            "properties": {
+                                "cert-manager.io/cluster-issuer": {
+                                    "type": "string"
+                                },
+                                "kubernetes.io/ingress.allow-http": {
+                                    "type": "string"
+                                },
+                                "kubernetes.io/ingress.class": {
+                                    "type": "string"
+                                },
+                                "kubernetes.io/tls-acme": {
+                                    "type": "string"
+                                },
+                                "nginx.ingress.kubernetes.io/proxy-body-size": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "name": {
+                    "type": "string"
+                },
+                "otel_console_exporter": {
+                    "type": "string"
+                },
+                "otel_log_level": {
+                    "type": "string"
+                },
+                "publicURL": {
+                    "type": "string"
+                },
+                "replicas": {
+                    "type": "integer"
+                },
+                "resources": {
+                    "type": "object",
+                    "properties": {
+                        "limits": {
+                            "type": "object",
+                            "properties": {
+                                "cpu": {
+                                    "type": "integer"
+                                },
+                                "memory": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "requests": {
+                            "type": "object",
+                            "properties": {
+                                "cpu": {
+                                    "type": "number"
+                                },
+                                "memory": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tolerations": {
+                    "type": "array"
+                }
+            }
+        },
+        "basedns": {
+            "type": "string"
+        },
+        "common": {
+            "type": "object",
+            "properties": {
+                "enabled": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "containerPort": {
+            "type": "integer"
+        },
+        "copy_files_hook": {
+            "type": "object",
+            "properties": {
+                "azuredevops_pat": {
+                    "type": "string"
+                },
+                "debug": {
+                    "type": "boolean"
+                },
+                "enabled": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "tolerations": {
+                    "type": "array"
+                }
+            }
+        },
+        "cron_jobs": {
+            "type": "object",
+            "properties": {
+                "extensibility": {
+                    "type": "string"
+                },
+                "scheduler": {
+                    "type": "string"
+                },
+                "tolerations": {
+                    "type": "array"
+                }
+            }
+        },
+        "database": {
+            "type": "object",
+            "properties": {
+                "additionalOptions": {
+                    "type": "object",
+                    "properties": {
+                        "api": {
+                            "type": "string"
+                        },
+                        "backoffice": {
+                            "type": "string"
+                        },
+                        "ws": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "backup_enabled": {
+                    "type": "boolean"
+                },
+                "cron_jobs": {
+                    "type": "object",
+                    "properties": {
+                        "azure_storage": {
+                            "type": "object",
+                            "properties": {
+                                "account": {
+                                    "type": "string"
+                                },
+                                "container": {
+                                    "type": "string"
+                                },
+                                "credentials_key": {
+                                    "type": "string"
+                                },
+                                "prefix": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "backup": {
+                            "type": "string"
+                        },
+                        "configmap_scripts": {
+                            "type": "string"
+                        },
+                        "password": {
+                            "type": "string"
+                        },
+                        "restore": {
+                            "type": "string"
+                        },
+                        "scheduled_hour": {
+                            "type": "integer"
+                        },
+                        "secret": {
+                            "type": "string"
+                        },
+                        "tolerations": {
+                            "type": "array"
+                        },
+                        "username": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "secretRef": {
+                    "type": "string"
+                },
+                "serviceURI": {
+                    "type": "string"
+                }
+            }
+        },
+        "env": {
+            "type": "string"
+        },
+        "first_user_hook": {
+            "type": "object",
+            "properties": {
+                "debug": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "tolerations": {
+                    "type": "array"
+                }
+            }
+        },
+        "graphql_disable_displayground_in_production": {
+            "type": "string"
+        },
+        "nodePool": {
+            "type": "object",
+            "properties": {
+                "priority": {
+                    "type": "string"
+                },
+                "spot": {
+                    "type": "object",
+                    "properties": {
+                        "tolerations": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "effect": {
+                                        "type": "string"
+                                    },
+                                    "key": {
+                                        "type": "string"
+                                    },
+                                    "operator": {
+                                        "type": "string"
+                                    },
+                                    "value": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "publicServerURL": {
+            "type": "string"
+        },
+        "pvc_sync_hook": {
+            "type": "object",
+            "properties": {
+                "debug": {
+                    "type": "boolean"
+                },
+                "enabled": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "tolerations": {
+                    "type": "array"
+                }
+            }
+        },
+        "sampleFrontend": {
+            "type": "object",
+            "properties": {
+                "affinity": {
+                    "type": "object",
+                    "properties": {
+                        "nodeAffinity": {
+                            "type": "object",
+                            "properties": {
+                                "requiredDuringSchedulingIgnoredDuringExecution": {
+                                    "type": "object",
+                                    "properties": {
+                                        "nodeSelectorTerms": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "matchExpressions": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "object",
+                                                            "properties": {
+                                                                "key": {
+                                                                    "type": "string"
+                                                                },
+                                                                "operator": {
+                                                                    "type": "string"
+                                                                },
+                                                                "values": {
+                                                                    "type": "array",
+                                                                    "items": {
+                                                                        "type": "string"
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "enabled": {
+                    "type": "boolean"
+                },
+                "image": {
+                    "type": "object",
+                    "properties": {
+                        "registry": {
+                            "type": "string"
+                        },
+                        "repository": {
+                            "type": "string"
+                        },
+                        "tag": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "name": {
+                    "type": "string"
+                },
+                "replicas": {
+                    "type": "integer"
+                },
+                "tolerations": {
+                    "type": "array"
+                }
+            }
+        },
+        "scheduler": {
+            "type": "object",
+            "properties": {
+                "debug": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "secret": {
+            "type": "string"
+        },
+        "sendgridApiKey": {
+            "type": "string"
+        },
+        "sync": {
+            "type": "object",
+            "properties": {
+                "affinity": {
+                    "type": "object",
+                    "properties": {
+                        "nodeAffinity": {
+                            "type": "object",
+                            "properties": {
+                                "requiredDuringSchedulingIgnoredDuringExecution": {
+                                    "type": "object",
+                                    "properties": {
+                                        "nodeSelectorTerms": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "matchExpressions": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "object",
+                                                            "properties": {
+                                                                "key": {
+                                                                    "type": "string"
+                                                                },
+                                                                "operator": {
+                                                                    "type": "string"
+                                                                },
+                                                                "values": {
+                                                                    "type": "array",
+                                                                    "items": {
+                                                                        "type": "string"
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "enabled": {
+                    "type": "boolean"
+                },
+                "env": {
+                    "type": "string"
+                },
+                "image": {
+                    "type": "object",
+                    "properties": {
+                        "registry": {
+                            "type": "string"
+                        },
+                        "repository": {
+                            "type": "string"
+                        },
+                        "tag": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "mzinga": {
+                    "type": "object",
+                    "properties": {
+                        "apiKey": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "name": {
+                    "type": "string"
+                },
+                "nodePool": {
+                    "type": "object",
+                    "properties": {
+                        "priority": {
+                            "type": "string"
+                        },
+                        "spot": {
+                            "type": "object",
+                            "properties": {
+                                "tolerations": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "effect": {
+                                                "type": "string"
+                                            },
+                                            "key": {
+                                                "type": "string"
+                                            },
+                                            "operator": {
+                                                "type": "string"
+                                            },
+                                            "value": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "otel": {
+                    "type": "object",
+                    "properties": {
+                        "consoleExporter": {
+                            "type": "string"
+                        },
+                        "disableTracing": {
+                            "type": "string"
+                        },
+                        "logLevel": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "replicas": {
+                    "type": "integer"
+                },
+                "repository": {
+                    "type": "object",
+                    "properties": {
+                        "baseUrl": {
+                            "type": "string"
+                        },
+                        "commitsUrl": {
+                            "type": "string"
+                        },
+                        "instancesUrl": {
+                            "type": "string"
+                        },
+                        "pat": {
+                            "type": "string"
+                        },
+                        "pushesUrl": {
+                            "type": "string"
+                        },
+                        "queueUrl": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "resources": {
+                    "type": "object",
+                    "properties": {
+                        "limits": {
+                            "type": "object",
+                            "properties": {
+                                "cpu": {
+                                    "type": "integer"
+                                },
+                                "memory": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "requests": {
+                            "type": "object",
+                            "properties": {
+                                "cpu": {
+                                    "type": "number"
+                                },
+                                "memory": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tolerations": {
+                    "type": "array"
+                },
+                "zitadel": {
+                    "type": "object",
+                    "properties": {
+                        "bearerToken": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "telemetry": {
+            "type": "object",
+            "properties": {
+                "exporter_otlp_endpoint": {
+                    "type": "string"
+                },
+                "tempo_service_name": {
+                    "type": "string"
+                }
+            }
+        },
+        "tenant": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "env": {
+                    "type": "string"
+                },
+                "firstName": {
+                    "type": "string"
+                },
+                "lastName": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "site": {
+                    "type": "object",
+                    "properties": {
+                        "bottomCardList": {
+                            "type": "object",
+                            "properties": {
+                                "tag": {
+                                    "type": "string"
+                                },
+                                "title": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": {
+                            "type": "string"
+                        },
+                        "formPage": {
+                            "type": "object",
+                            "properties": {
+                                "slug": {
+                                    "type": "string"
+                                },
+                                "title": {
+                                    "type": "string"
+                                },
+                                "uri": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "title": {
+                            "type": "string"
+                        },
+                        "titleSuffix": {
+                            "type": "string"
+                        },
+                        "topCardList": {
+                            "type": "object",
+                            "properties": {
+                                "tag": {
+                                    "type": "string"
+                                },
+                                "title": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "topPage": {
+                            "type": "object",
+                            "properties": {
+                                "slug": {
+                                    "type": "string"
+                                },
+                                "title": {
+                                    "type": "string"
+                                },
+                                "uri": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tier": {
+                    "type": "string"
+                }
+            }
+        },
+        "tolerations": {
+            "type": "array"
+        },
+        "ws": {
+            "type": "object",
+            "properties": {
+                "affinity": {
+                    "type": "object",
+                    "properties": {
+                        "nodeAffinity": {
+                            "type": "object",
+                            "properties": {
+                                "requiredDuringSchedulingIgnoredDuringExecution": {
+                                    "type": "object",
+                                    "properties": {
+                                        "nodeSelectorTerms": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "matchExpressions": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "object",
+                                                            "properties": {
+                                                                "key": {
+                                                                    "type": "string"
+                                                                },
+                                                                "operator": {
+                                                                    "type": "string"
+                                                                },
+                                                                "values": {
+                                                                    "type": "array",
+                                                                    "items": {
+                                                                        "type": "string"
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "customization": {
+                    "type": "object"
+                },
+                "enabled": {
+                    "type": "boolean"
+                },
+                "image": {
+                    "type": "object",
+                    "properties": {
+                        "registry": {
+                            "type": "string"
+                        },
+                        "repository": {
+                            "type": "string"
+                        },
+                        "tag": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "ingress": {
+                    "type": "object",
+                    "properties": {
+                        "annotations": {
+                            "type": "object",
+                            "properties": {
+                                "cert-manager.io/cluster-issuer": {
+                                    "type": "string"
+                                },
+                                "kubernetes.io/ingress.allow-http": {
+                                    "type": "string"
+                                },
+                                "kubernetes.io/ingress.class": {
+                                    "type": "string"
+                                },
+                                "kubernetes.io/tls-acme": {
+                                    "type": "string"
+                                },
+                                "nginx.ingress.kubernetes.io/proxy-body-size": {
+                                    "type": "string"
+                                },
+                                "nginx.ingress.kubernetes.io/proxy-read-timeout": {
+                                    "type": "string"
+                                },
+                                "nginx.ingress.kubernetes.io/proxy-send-timeout": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "name": {
+                    "type": "string"
+                },
+                "otel_console_exporter": {
+                    "type": "string"
+                },
+                "otel_log_level": {
+                    "type": "string"
+                },
+                "publicURL": {
+                    "type": "string"
+                },
+                "replicas": {
+                    "type": "integer"
+                },
+                "resources": {
+                    "type": "object",
+                    "properties": {
+                        "limits": {
+                            "type": "object",
+                            "properties": {
+                                "cpu": {
+                                    "type": "integer"
+                                },
+                                "memory": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "requests": {
+                            "type": "object",
+                            "properties": {
+                                "cpu": {
+                                    "type": "number"
+                                },
+                                "memory": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tolerations": {
+                    "type": "array"
+                }
+            }
+        },
+        "zitadel_database": {
+            "type": "object",
+            "properties": {
+                "backup_enabled": {
+                    "type": "boolean"
+                },
+                "configmap_scripts": {
+                    "type": "string"
+                },
+                "debug": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "psql_host": {
+                    "type": "string"
+                },
+                "psql_port": {
+                    "type": "string"
+                },
+                "psql_postgres_password": {
+                    "type": "string"
+                },
+                "psql_postgres_user": {
+                    "type": "string"
+                },
+                "secret": {
+                    "type": "string"
+                },
+                "tolerations": {
+                    "type": "array"
+                }
+            }
+        }
+    }
+}

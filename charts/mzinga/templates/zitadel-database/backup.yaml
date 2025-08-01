@@ -1,0 +1,50 @@
+{{- if .Values.zitadel_database.backup_enabled -}}
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ .Values.zitadel_database.name }}-backup
+  labels:
+    helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+  annotations:
+    releaseTime: {{ dateInZone "2006-01-02T15:04:05Z" (now) "UTC" | quote }}
+    helm.sh/hook: post-install
+    {{- if not .Values.zitadel_database.debug }}
+    helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
+    {{- end }}
+    helm.sh/hook-weight: "-1"
+spec:
+  schedule: "0 4 * * *"
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: {{ .Values.zitadel_database.name }}-backup
+            image: ubuntu:22.04
+            command: [ "/bin/bash", "-c", "/app/scripts/psql_backup.sh" ]
+            envFrom:
+              - secretRef:
+                  name: {{ .Values.zitadel_database.secret }}
+            volumeMounts:
+              - name: config-volume
+                mountPath: /app/scripts
+              - mountPath: "/backups"
+                name: backup-share
+          volumes:
+            - name: config-volume
+              configMap:
+                name: {{ .Values.zitadel_database.configmap_scripts }}
+                defaultMode: 484
+            - name: backup-share
+              persistentVolumeClaim:
+                claimName: zitadel-psql-backups
+          restartPolicy: Never
+          {{-  with concat .Values.zitadel_database.tolerations .Values.tolerations }}
+          tolerations:
+          {{- toYaml . | nindent 10 }}
+          {{- end }}
+      backoffLimit: 4
+{{- end -}}

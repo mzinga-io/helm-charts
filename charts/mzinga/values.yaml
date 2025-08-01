@@ -1,0 +1,306 @@
+basedns: "mzinga.io"
+containerPort: 3000
+env: production
+graphql_disable_displayground_in_production: "1"
+tenant:
+  name: "demo"
+  email: "info@mzinga.io"
+  env: "prod"
+  firstName: "sample"
+  lastName: "tenant"
+  password: "84b60b91-628b-42e1-adf2-00c12482f27e"
+  tier: "pro"
+  site:
+    title: "Demo frontend"
+    titleSuffix: "Demo frontend"
+    description: "Demo frontend"
+    topCardList:
+      title: "Our Services"
+      tag: "services"
+    bottomCardList:
+      title: "Our People"
+      tag: "people"
+    topPage:
+      title: "About Us"
+      slug: "about-us"
+      uri: "/about-us"
+    formPage:
+      title: "Contact Us"
+      slug: "contact-us"
+      uri: "/contact-us"
+nodePool:
+  priority: "Regular"
+  spot:
+    tolerations:
+      - key: "kubernetes.azure.com/scalesetpriority"
+        operator: "Equal"
+        value: "spot"
+        effect: "NoSchedule"
+secret: cd9a7f30-e078-45fc-b6d2-9e4ebf6420ae
+sendgridApiKey: ""
+publicServerURL: https://admin-demo.mzinga.io
+cron_jobs:
+  extensibility: ce-enabler
+  scheduler: time-based-executions
+  ## Additional tolerations for all mzinga cronjobs
+  ##
+  tolerations: []
+database:
+  secretRef: percona-psmdb-db-users-creds
+  serviceURI: percona-psmdb-db-rs0.perconadb.svc.cluster.local
+  additionalOptions:
+    api: readPreference=secondary
+    backoffice: readPreference=primary
+    ws: readPreference=secondary
+  backup_enabled: true
+  cron_jobs:
+    username: backup
+    password: backup123456
+    configmap_scripts: mzinga-db-jobs-scripts
+    secret: mzinga-db-jobs-secret
+    azure_storage:
+      account: ""
+      container: ""
+      prefix: ""
+      credentials_key: ""
+    backup: mzinga-db-backup-job
+    restore: mzinga-db-restore-job
+    scheduled_hour: 2
+    ## Additional tolerations for database backup job
+    ##
+    tolerations: []
+first_user_hook:
+  name: mzinga-first-user
+  debug: false
+  ## Additional tolerations for first user hook job
+  ##
+  tolerations: []
+
+## pvc_sync_hook values
+##
+pvc_sync_hook:
+  ## Name of the job
+  ##
+  name: mzinga-pvc-sync
+  ## Enable debug mode
+  ##
+  debug: false
+  enabled: true
+  ## Additional tolerations for pvc sync hook job
+  ##
+  tolerations: []
+
+copy_files_hook:
+  ## Enable copy_files Hook
+  ##
+  enabled: true
+  name: mzinga-copy-files
+  debug: false
+  azuredevops_pat: ""
+  ## Additional tolerations for copy files hook job
+  ##
+  tolerations: []
+scheduler:
+  name: mzinga-scheduler
+  debug: true
+common:
+  enabled: true
+  name: mzinga-common
+backoffice:
+  name: mzinga-bo
+  replicas: 1
+  image:
+    repository: mzinga/payload/backoffice
+    tag: 1.6.6
+    registry: newesissrl.azurecr.io
+  publicURL: ""
+  tolerations: []
+  ingress:
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-production
+      kubernetes.io/ingress.allow-http: 'false'
+      kubernetes.io/ingress.class: nginx
+      kubernetes.io/tls-acme: 'true'
+      nginx.ingress.kubernetes.io/proxy-body-size: "100m"
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: mzinga.io/tenants
+                operator: In
+                values:
+                  - "true"
+  resources:
+    requests:
+      memory: 250Mi
+      cpu: 0.5
+    limits:
+      memory: 500Mi
+      cpu: 1
+  customization:
+    PAYLOAD_PUBLIC_CUSTOM_ICON_SRC: https://via.placeholder.com/32x32/008000
+    PAYLOAD_PUBLIC_CUSTOM_LOGO_SRC: https://via.placeholder.com/180x180/FFFF00
+    PAYLOAD_PUBLIC_DISABLED_ENTITIES_SLUGS: organizations,projects,environments,assets
+    PAYLOAD_PUBLIC_DISABLE_LOCAL_STRATEGY: "0"
+  otel_log_level: ""
+  otel_console_exporter: "1"
+api:
+  name: mzinga-api
+  replicas: 1
+  image:
+    repository: mzinga/payload/api
+    tag: 1.6.6
+    registry: newesissrl.azurecr.io
+  publicURL: ""
+  api_key: ""
+  tolerations: []
+  ingress:
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-production
+      kubernetes.io/ingress.allow-http: 'false'
+      kubernetes.io/ingress.class: nginx
+      kubernetes.io/tls-acme: 'true'
+      nginx.ingress.kubernetes.io/proxy-body-size: "100m"
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: mzinga.io/tenants
+                operator: In
+                values:
+                  - "true"
+  resources:
+    requests:
+      memory: 250Mi
+      cpu: 0.5
+    limits:
+      memory: 500Mi
+      cpu: 1
+  customization:
+    PAYLOAD_PUBLIC_DISABLED_ENTITIES_SLUGS: organizations,projects,environments,assets
+  otel_log_level: ""
+  otel_console_exporter: "1"
+ws:
+  enabled: true
+  name: mzinga-ws
+  replicas: 1
+  image:
+    repository: mzinga/payload/ws-service
+    tag: 1.0.40
+    registry: newesissrl.azurecr.io
+  publicURL: ""
+  tolerations: []
+  ingress:
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-production
+      kubernetes.io/ingress.allow-http: 'false'
+      kubernetes.io/ingress.class: nginx
+      kubernetes.io/tls-acme: 'true'
+      nginx.ingress.kubernetes.io/proxy-body-size: "100m"
+      nginx.ingress.kubernetes.io/proxy-read-timeout: "7200"
+      nginx.ingress.kubernetes.io/proxy-send-timeout: "7200"
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: mzinga.io/tenants
+                operator: In
+                values:
+                  - "true"
+  resources:
+    requests:
+      memory: 250Mi
+      cpu: 0.5
+    limits:
+      memory: 500Mi
+      cpu: 1
+  customization: {}
+  otel_log_level: ""
+  otel_console_exporter: "1"
+sampleFrontend:
+  enabled: true
+  name: mzinga-sample-fe
+  replicas: 1
+  image:
+    repository: newesis/website/frontend
+    tag: 0.15.1
+    registry: newesissrl.azurecr.io
+  tolerations: []
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: mzinga.io/tenants
+                operator: In
+                values:
+                  - "true"
+sync:
+  enabled: false
+  name: mzinga-to-zitadel
+  replicas: 1
+  env: prod
+  image:
+    repository: mzinga-to-zitadel
+    tag: 3.0.81
+    registry: newesissrl.azurecr.io
+  otel:
+    disableTracing: "0"
+    consoleExporter: "1"
+    logLevel: debug
+  mzinga:
+    apiKey: ""
+  repository:
+    baseUrl: https://dev.azure.com/newesis/Code%20Name%20MZinga
+    instancesUrl: /_apis/git/repositories/infrastructure/items?download=false&api-version=7.1-preview.1&scopePath=/__instances__/mzinga-prod.tfvars.json
+    commitsUrl: /_apis/git/repositories/infrastructure/commits?searchCriteria.%24top=1&searchCriteria.itemVersion.version=main&api-version=7.1-preview.1
+    pushesUrl: /_apis/git/repositories/infrastructure/pushes?api-version=7.1-preview.2
+    queueUrl: /_apis/pipelines/59/runs?api-version=7.1-preview.1
+    pat: ""
+  zitadel:
+    bearerToken: ""
+  nodePool:
+    priority: "Regular"
+    spot:
+      tolerations:
+        - key: "kubernetes.azure.com/scalesetpriority"
+          operator: "Equal"
+          value: "spot"
+          effect: "NoSchedule"
+  resources:
+    requests:
+      memory: 250Mi
+      cpu: 0.5
+    limits:
+      memory: 500Mi
+      cpu: 1
+  tolerations: []
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: mzinga.io/tenants
+                operator: In
+                values:
+                  - "true"
+zitadel_database:
+  name: zitadel-db
+  backup_enabled: false
+  secret: zitadel-database-jobs-secret
+  configmap_scripts: zitadel-db-jobs-scripts
+  psql_host: postgresql-hl.zitadel
+  psql_port: "5432"
+  psql_postgres_user: postgres
+  psql_postgres_password: postgres
+  debug: true
+  tolerations: []
+telemetry:
+  tempo_service_name: tempo.monitoring
+  exporter_otlp_endpoint: http://opentelemetry-collector-mzinga.monitoring:4318
+
+tolerations: []
+  

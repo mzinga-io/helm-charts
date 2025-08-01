@@ -1,0 +1,145 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.api.name }}
+  labels:
+    app: mzinga
+    role: api
+    helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    {{- include "mzinga.dd_unified_tagging.labels" (dict "item" .Values.api "context" $) | nindent 4 }}
+  annotations:
+    releaseTime: {{ dateInZone "2006-01-02T15:04:05Z" (now) "UTC" | quote }}
+spec:
+  replicas: {{ include "mzinga.deployment.replicas" (dict "tier" .Values.tenant.tier "replicas" .Values.api.replicas) }}
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: mzinga
+      role: api
+  template:
+    metadata:
+      labels:
+        app: mzinga
+        role: api
+        helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+        {{- include "mzinga.dd_unified_tagging.labels" (dict "item" .Values.api "context" $) | nindent 8 }}
+      annotations:
+        releaseTime: {{ dateInZone "2006-01-02T15:04:05Z" (now) "UTC" | quote }}
+    spec:
+      {{- include "mzinga.affinity" (dict "affinity" .Values.api.affinity "context" $) | nindent 6 }}
+      {{- include "mzinga.tolerations" (dict "tolerations" .Values.api.tolerations  "context" $) | nindent 6 }}
+      containers:
+        - name: api
+          {{- include "mzinga.image" (dict "image" .Values.api.image "context" $) | nindent 10 }}
+          ports:
+            - containerPort: {{ .Values.containerPort | default 3000 }}
+          envFrom:
+            - secretRef:
+                name: {{ .Values.database.secretRef }}
+            - configMapRef:
+                name: {{ .Values.common.name }}
+            - configMapRef:
+                name: {{ .Values.api.name }}-customization
+          env:
+            - name: MONGODB_URI
+              value: mongodb://$(username):$(password)@{{ .Values.database.serviceURI }}:27017/$(database)?authSource=admin&{{ .Values.database.additionalOptions.api }}
+            - name: PAYLOAD_PUBLIC_SERVER_URL
+              value: {{ .Values.api.publicURL }}
+            - name: PAYLOAD_PUBLIC_COOKIE_DOMAIN
+              value: api-{{ .Values.tenant.name }}.{{ .Values.basedns }}
+            - name: OTEL_CONSOLE_EXPORTER
+              value: {{ .Values.api.otel_console_exporter | quote }}
+            - name: OTEL_LOG_LEVEL
+              value: {{ .Values.api.otel_log_level }}
+            - name: SERVICE_NAME
+              value: {{ .Values.api.name }}
+            {{- include "mzinga.dd_unified_tagging.env_variables" . | nindent 12 }}
+          {{- if .Values.api.resources }}
+          resources: {{- toYaml .Values.api.resources | nindent 12 }}
+          {{- end }}
+          imagePullPolicy: Always
+          livenessProbe:
+            httpGet:
+              path: /probes/api/health
+              port: {{ .Values.containerPort | default 3000 }}
+            initialDelaySeconds: 5
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /probes/ready
+              port: {{ .Values.containerPort | default 3000 }}
+            initialDelaySeconds: 5
+            periodSeconds: 30
+          startupProbe:
+            httpGet:
+              path: /probes/startup
+              port: {{ .Values.containerPort | default 3000 }}
+            initialDelaySeconds: 5
+            periodSeconds: 30
+          volumeMounts:
+          - mountPath: "/app/{{ .Values.tenant.name }}"
+            name: tenant-mount
+      volumes:
+      - name: tenant-mount
+        persistentVolumeClaim:
+          claimName: {{ .Values.tenant.name }}-pvc-{{ .Values.tenant.tier }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.api.name }}-svc
+  labels:
+    helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+  annotations:
+    releaseTime: {{ dateInZone "2006-01-02T15:04:05Z" (now) "UTC" | quote }}
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "8888"
+spec:
+  selector:
+    app: mzinga
+    role: api
+  ports:
+    - name: app
+      protocol: TCP
+      port: {{ .Values.containerPort | default 3000 }}
+      targetPort: {{ .Values.containerPort | default 3000 }}
+    - name: metrics
+      protocol: TCP
+      port: 8888
+      targetPort: 8888
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Values.api.name }}-ingress
+  labels:
+    helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+  annotations:
+    releaseTime: {{ dateInZone "2006-01-02T15:04:05Z" (now) "UTC" | quote }}
+    {{- with .Values.api.ingress.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  tls:
+    - hosts:
+        - api-{{ .Values.tenant.name }}.{{ .Values.basedns }}
+      secretName: api-certificates
+  rules:
+    - host: api-{{ .Values.tenant.name }}.{{ .Values.basedns }}
+      http:
+        paths:
+          - path: /metrics
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: {{ .Values.api.name }}-svc
+                port:
+                  number: 8888
+          - path: /
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: {{ .Values.api.name }}-svc
+                port:
+                  number: {{ .Values.containerPort | default 3000 }}

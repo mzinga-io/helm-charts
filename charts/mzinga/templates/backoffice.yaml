@@ -1,0 +1,145 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.backoffice.name }}
+  labels:
+    app: mzinga
+    role: backoffice
+    helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    {{- include "mzinga.dd_unified_tagging.labels" (dict "item" .Values.backoffice "context" $) | nindent 4 }}
+  annotations:
+    releaseTime: {{ dateInZone "2006-01-02T15:04:05Z" (now) "UTC" | quote }}
+spec:
+  replicas: {{ include "mzinga.deployment.replicas" (dict "tier" .Values.tenant.tier "replicas" .Values.backoffice.replicas) }}
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: mzinga
+      role: backoffice
+  template:
+    metadata:
+      labels:
+        app: mzinga
+        role: backoffice
+        helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+        {{- include "mzinga.dd_unified_tagging.labels" (dict "item" .Values.backoffice "context" $) | nindent 8 }}
+      annotations:
+        releaseTime: {{ dateInZone "2006-01-02T15:04:05Z" (now) "UTC" | quote }}
+    spec:
+      {{- include "mzinga.affinity" (dict "affinity" .Values.backoffice.affinity "context" $) | nindent 6 }}
+      {{- include "mzinga.tolerations" (dict "tolerations" .Values.backoffice.tolerations "context" $) | nindent 6 }}
+      containers:
+        - name: backoffice
+          {{- include "mzinga.image" (dict "image" .Values.backoffice.image "context" $) | nindent 10 }}
+          ports:
+            - containerPort: {{ .Values.containerPort | default 3000 }}
+          envFrom:
+            - secretRef:
+                name: {{ .Values.database.secretRef }}
+            - configMapRef:
+                name: {{ .Values.common.name }}
+            - configMapRef:
+                name: {{ .Values.backoffice.name }}-customization
+          env:
+            - name: MONGODB_URI
+              value: mongodb://$(username):$(password)@{{ .Values.database.serviceURI }}:27017/$(database)?authSource=admin&{{ .Values.database.additionalOptions.backoffice }}
+            - name: PAYLOAD_PUBLIC_SERVER_URL
+              value: {{ .Values.backoffice.publicURL | default .Values.publicServerURL }}
+            - name: PAYLOAD_PUBLIC_COOKIE_DOMAIN
+              value: admin-{{ .Values.tenant.name }}.{{ .Values.basedns }}
+            - name: OTEL_CONSOLE_EXPORTER
+              value: {{ .Values.backoffice.otel_console_exporter | quote }}
+            - name: OTEL_LOG_LEVEL
+              value: {{ .Values.backoffice.otel_log_level }}
+            - name: SERVICE_NAME
+              value: {{ .Values.backoffice.name }}
+            {{- include "mzinga.dd_unified_tagging.env_variables" . | nindent 12 }}
+          {{- if .Values.backoffice.resources }}
+          resources: {{- toYaml .Values.backoffice.resources | nindent 12 }}
+          {{- end }}
+          imagePullPolicy: Always
+          livenessProbe:
+            httpGet:
+              path: /probes/backoffice/health
+              port: {{ .Values.containerPort | default 3000 }}
+            initialDelaySeconds: 5
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /probes/ready
+              port: {{ .Values.containerPort | default 3000 }}
+            initialDelaySeconds: 5
+            periodSeconds: 30
+          startupProbe:
+            httpGet:
+              path: /probes/startup
+              port: {{ .Values.containerPort | default 3000 }}
+            initialDelaySeconds: 5
+            periodSeconds: 30
+          volumeMounts:
+          - mountPath: "/app/{{ .Values.tenant.name }}"
+            name: tenant-mount
+      volumes:
+      - name: tenant-mount
+        persistentVolumeClaim:
+          claimName: {{ .Values.tenant.name }}-pvc-{{ .Values.tenant.tier }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.backoffice.name }}-svc
+  labels:
+    helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+  annotations:
+    releaseTime: {{ dateInZone "2006-01-02T15:04:05Z" (now) "UTC" | quote }}
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "8888"
+spec:
+  selector:
+    app: mzinga
+    role: backoffice
+  ports:
+    - name: app
+      protocol: TCP
+      port: {{ .Values.containerPort | default 3000 }}
+      targetPort: {{ .Values.containerPort | default 3000 }}
+    - name: metrics
+      protocol: TCP
+      port: 8888
+      targetPort: 8888
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Values.backoffice.name }}-ingress
+  labels:
+    helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+  annotations:
+    releaseTime: {{ dateInZone "2006-01-02T15:04:05Z" (now) "UTC" | quote }}
+    {{- with .Values.backoffice.ingress.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  tls:
+    - hosts:
+        - admin-{{ .Values.tenant.name }}.{{ .Values.basedns }}
+      secretName: backoffice-certificates
+  rules:
+    - host: admin-{{ .Values.tenant.name }}.{{ .Values.basedns }}
+      http:
+        paths:
+          - path: /metrics
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: {{ .Values.backoffice.name }}-svc
+                port:
+                  number: 8888
+          - path: /
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: {{ .Values.backoffice.name }}-svc
+                port:
+                  number: {{ .Values.containerPort | default 3000 }}

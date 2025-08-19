@@ -15,4 +15,4 @@ repos:
       entry: jnorwood/helm-docs:v1.14.2
       args:
         # Make the tool search for charts only under the `charts` directory
-        - --chart-search-root=charts
+        - --chart-search-root=charts/mzinga

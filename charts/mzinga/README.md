@@ -136,6 +136,8 @@ Kubernetes: `>=1.25.0-0`
 | scheduler.name | string | `"mzinga-scheduler"` |  |
 | secret | string | `"cd9a7f30-e078-45fc-b6d2-9e4ebf6420ae"` |  |
 | sendgridApiKey | string | `""` |  |
+| storageClasses | object | `{"azure":{}}` | Storage classes to be created for MZinga deployment. |
+| storageClasses.azure | object | `{}` | Storage classes to use Azure file shares. |
 | sync.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[0].matchExpressions[0].key | string | `"mzinga.io/tenants"` |  |
 | sync.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[0].matchExpressions[0].operator | string | `"In"` |  |
 | sync.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[0].matchExpressions[0].values[0] | string | `"true"` |  |

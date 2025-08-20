@@ -303,4 +303,44 @@ telemetry:
   exporter_otlp_endpoint: http://opentelemetry-collector-mzinga.monitoring:4318
 
 tolerations: []
-  
+
+# -- Storage classes to be created for MZinga deployment.
+storageClasses:
+  # -- Storage classes to use Azure file shares.
+  azure: {}
+    # cool:
+    #   labels: {}
+    #   annotations: {}
+    #   provisioner: file.csi.azure.com
+    #   parameters:
+    #     shareAccessTier: Cool
+    #     skuName: Standard_ZRS
+    #   additionalParameters: {}
+    #   reclaimPolicy: Delete
+    #   mountOptions:
+    #     - dir_mode=0777
+    #     - file_mode=0777
+    #     - uid=1000
+    #     - gid=1000
+    #     - mfsymlinks
+    #     - nobrl
+    #   allowVolumeExpansion: true
+    #   volumeBindingMode: Immediate
+    # hot:
+    #   labels: {}
+    #   annotations: {}
+    #   provisioner: file.csi.azure.com
+    #   parameters:
+    #     shareAccessTier: Hot
+    #     skuName: Standard_ZRS
+    #   additionalParameters: {}
+    #   reclaimPolicy: Delete
+    #   mountOptions:
+    #     - dir_mode=0777
+    #     - file_mode=0777
+    #     - uid=1000
+    #     - gid=1000
+    #     - mfsymlinks
+    #     - nobrl
+    #   allowVolumeExpansion: true
+    #   volumeBindingMode: Immediate

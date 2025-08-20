@@ -5,6 +5,16 @@
 
 Repository containing MZinga related helm charts.
 
+## Setup
+
+You must install [make](https://www.gnu.org/software/make/) to install and setup git hooks on this repo.
+
+After installing it run:
+
+```console
+make setup
+```
+
 ## Usage
 
 [Helm](https://helm.sh) must be installed to use the charts.

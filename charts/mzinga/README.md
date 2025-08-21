@@ -136,8 +136,10 @@ Kubernetes: `>=1.25.0-0`
 | scheduler.name | string | `"mzinga-scheduler"` |  |
 | secret | string | `"cd9a7f30-e078-45fc-b6d2-9e4ebf6420ae"` |  |
 | sendgridApiKey | string | `""` |  |
-| storageClasses | object | `{"azure":{}}` | Storage classes to be created for MZinga deployment. |
-| storageClasses.azure | object | `{}` | Storage classes to use Azure file shares. |
+| storageClasses | object | `{"aws":{},"azure":{},"google":{}}` | Storage classes to be created for MZinga deployment. |
+| storageClasses.aws | object | `{}` | Storage classes to use AWS Elastic File system. refer to this documentation: https://aws.amazon.com/blogs/containers/introducing-efs-csi-dynamic-provisioning/ |
+| storageClasses.azure | object | `{}` | Storage classes to use Azure file shares. Refer to this documentation: https://learn.microsoft.com/en-us/azure/aks/azure-csi-files-storage-provision |
+| storageClasses.google | object | `{}` | Storage classes to use Google Filestore. refer to this documentation: https://cloud.google.com/filestore/docs/csi-driver#storage-class |
 | sync.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[0].matchExpressions[0].key | string | `"mzinga.io/tenants"` |  |
 | sync.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[0].matchExpressions[0].operator | string | `"In"` |  |
 | sync.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[0].matchExpressions[0].values[0] | string | `"true"` |  |

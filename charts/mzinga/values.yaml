@@ -306,7 +306,7 @@ tolerations: []
 
 # -- Storage classes to be created for MZinga deployment.
 storageClasses:
-  # -- Storage classes to use Azure file shares.
+  # -- Storage classes to use Azure file shares. Refer to this documentation: https://learn.microsoft.com/en-us/azure/aks/azure-csi-files-storage-provision
   azure: {}
     # cool:
     #   labels: {}
@@ -344,3 +344,21 @@ storageClasses:
     #     - nobrl
     #   allowVolumeExpansion: true
     #   volumeBindingMode: Immediate
+  # -- Storage classes to use AWS Elastic File system. refer to this documentation: https://aws.amazon.com/blogs/containers/introducing-efs-csi-dynamic-provisioning/
+  aws: {}
+    # accessPoint:
+    #   labels: {}
+    #   annotations: {}
+    #   provisioner: efs.csi.aws.com
+    #   parameters:
+    #     basePath: /
+    #     directoryPerms: '700'
+    #     fileSystemId: fs-05fd76362f6a7888b
+    #     provisioningMode: efs-ap
+    #   additionalParameters: {}
+    #   reclaimPolicy: Delete
+    #   mountOptions: {}
+    #   allowVolumeExpansion: true
+    #   volumeBindingMode: Immediate
+  # -- Storage classes to use Google Filestore. refer to this documentation: https://cloud.google.com/filestore/docs/csi-driver#storage-class
+  google: {}

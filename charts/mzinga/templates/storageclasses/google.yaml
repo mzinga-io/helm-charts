@@ -1,0 +1,33 @@
+{{ $releaseName := .Release.Name }}
+{{ range $k, $v := .Values.storageClasses.google }}
+{{ $storageClassSuffix := lower $k }}
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: {{ $releaseName }}-{{ $storageClassSuffix }}
+  {{- with $v.labels }}
+  labels:
+    {{- toYaml . | nindent 4}}
+  {{- end }}
+  {{- with $v.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+provisioner: {{ $v.provisioner }}
+parameters:
+  tier: {{ $v.parameters.tier }}
+  multishare: {{ $v.parameters.multishare }}
+  instance-storageclass-label: {{ $v.parameters.instanceStorageclassLabel }}
+  maxVolumeSize: {{ $v.parameters.maxVolumeSize }}
+{{- with $v.additionalParameters }}
+  {{- toYaml . | nindent 2 }}
+{{- end }}
+{{- with $v.mountOptions }}
+mountOptions:
+  {{- toYaml . | nindent 2 }}
+{{- end }}
+reclaimPolicy: {{ $v.reclaimPolicy }}
+allowVolumeExpansion: {{ $v.allowVolumeExpansion }}
+volumeBindingMode: {{ $v.volumeBindingMode }}
+---
+{{- end }}

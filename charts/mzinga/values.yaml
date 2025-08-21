@@ -357,8 +357,22 @@ storageClasses:
     #     provisioningMode: efs-ap
     #   additionalParameters: {}
     #   reclaimPolicy: Delete
-    #   mountOptions: {}
+    #   mountOptions: []
     #   allowVolumeExpansion: true
     #   volumeBindingMode: Immediate
   # -- Storage classes to use Google Filestore. refer to this documentation: https://cloud.google.com/filestore/docs/csi-driver#storage-class
   google: {}
+    # enterpriseMultishareRWX:
+    #   provisioner: filestore.csi.storage.gke.io
+    #   parameters:
+    #     tier: enterprise
+    #     multishare: "true"
+    #     instanceStorageclassLabel: "enterprise-multishare-rwx"
+    #     ## Refer to this documentation to better understand: https://cloud.google.com/filestore/docs/optimize-multishares#create_a_custom_storageclass
+    #     ##
+    #     maxVolumeSize: "256GiB"
+    #   additionalParameters: {}
+    #   mountOptions: []
+    #   reclaimPolicy: Delete
+    #   allowVolumeExpansion: true
+    #   volumeBindingMode: Immediate

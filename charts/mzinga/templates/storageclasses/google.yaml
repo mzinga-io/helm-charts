@@ -16,7 +16,7 @@ metadata:
 provisioner: {{ $v.provisioner }}
 parameters:
   tier: {{ $v.parameters.tier }}
-  multishare: {{ $v.parameters.multishare }}
+  multishare: {{ $v.parameters.multishare | quote }}
   instance-storageclass-label: {{ $v.parameters.instanceStorageclassLabel }}
   maxVolumeSize: {{ $v.parameters.maxVolumeSize }}
 {{- with $v.additionalParameters }}

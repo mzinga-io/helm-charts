@@ -308,42 +308,47 @@ tolerations: []
 storageClasses:
   # -- Storage classes to use Azure file shares. Refer to this documentation: https://learn.microsoft.com/en-us/azure/aks/azure-csi-files-storage-provision
   azure: {}
-    # cool:
-    #   labels: {}
-    #   annotations: {}
-    #   provisioner: file.csi.azure.com
-    #   parameters:
-    #     shareAccessTier: Cool
-    #     skuName: Standard_ZRS
-    #   additionalParameters: {}
-    #   reclaimPolicy: Delete
-    #   mountOptions:
-    #     - dir_mode=0777
-    #     - file_mode=0777
-    #     - uid=1000
-    #     - gid=1000
-    #     - mfsymlinks
-    #     - nobrl
-    #   allowVolumeExpansion: true
-    #   volumeBindingMode: Immediate
-    # hot:
-    #   labels: {}
-    #   annotations: {}
-    #   provisioner: file.csi.azure.com
-    #   parameters:
-    #     shareAccessTier: Hot
-    #     skuName: Standard_ZRS
-    #   additionalParameters: {}
-    #   reclaimPolicy: Delete
-    #   mountOptions:
-    #     - dir_mode=0777
-    #     - file_mode=0777
-    #     - uid=1000
-    #     - gid=1000
-    #     - mfsymlinks
-    #     - nobrl
-    #   allowVolumeExpansion: true
-    #   volumeBindingMode: Immediate
+    # -- Fill in this section with you Azure storage account name and access key.
+    # storageAccount:
+    #   name: ""
+    #   key: ""
+    # tier:
+    #   cool:
+    #     labels: {}
+    #     annotations: {}
+    #     provisioner: file.csi.azure.com
+    #     parameters:
+    #       shareAccessTier: Cool
+    #       skuName: Standard_ZRS
+    #     additionalParameters: {}
+    #     reclaimPolicy: Delete
+    #     mountOptions:
+    #       - dir_mode=0777
+    #       - file_mode=0777
+    #       - uid=1000
+    #       - gid=1000
+    #       - mfsymlinks
+    #       - nobrl
+    #     allowVolumeExpansion: true
+    #     volumeBindingMode: Immediate
+    #   hot:
+    #     labels: {}
+    #     annotations: {}
+    #     provisioner: file.csi.azure.com
+    #     parameters:
+    #       shareAccessTier: Hot
+    #       skuName: Standard_ZRS
+    #     additionalParameters: {}
+    #     reclaimPolicy: Delete
+    #     mountOptions:
+    #       - dir_mode=0777
+    #       - file_mode=0777
+    #       - uid=1000
+    #       - gid=1000
+    #       - mfsymlinks
+    #       - nobrl
+    #     allowVolumeExpansion: true
+    #     volumeBindingMode: Immediate
   # -- Storage classes to use AWS Elastic File system. refer to this documentation: https://aws.amazon.com/blogs/containers/introducing-efs-csi-dynamic-provisioning/
   aws: {}
     # accessPoint:
@@ -361,18 +366,53 @@ storageClasses:
     #   allowVolumeExpansion: true
     #   volumeBindingMode: Immediate
   # -- Storage classes to use Google Filestore. refer to this documentation: https://cloud.google.com/filestore/docs/csi-driver#storage-class
-  google: {}
-    # enterpriseMultishareRWX:
-    #   provisioner: filestore.csi.storage.gke.io
-    #   parameters:
-    #     tier: enterprise
-    #     multishare: "true"
-    #     instanceStorageclassLabel: "enterprise-multishare-rwx"
-    #     ## Refer to this documentation to better understand: https://cloud.google.com/filestore/docs/optimize-multishares#create_a_custom_storageclass
-    #     ##
-    #     maxVolumeSize: "256GiB"
-    #   additionalParameters: {}
-    #   mountOptions: []
-    #   reclaimPolicy: Delete
-    #   allowVolumeExpansion: true
-    #   volumeBindingMode: Immediate
+  google:
+    enterpriseMultishareRWX:
+      provisioner: filestore.csi.storage.gke.io
+      parameters:
+        tier: "enterprise"
+        multishare: "true"
+        instanceStorageclassLabel: "enterprise-multishare-rwx"
+        ## Refer to this documentation to better understand: https://cloud.google.com/filestore/docs/optimize-multishares#create_a_custom_storageclass
+        ##
+        maxVolumeSize: "256GiB"
+      additionalParameters: {}
+      mountOptions: []
+      reclaimPolicy: Delete
+      allowVolumeExpansion: true
+      volumeBindingMode: Immediate
+
+# -- Persistence section describe which volumes and claims will be created
+persistence:
+  # -- Volumes specification
+  volumes:
+    basic:
+      capacity: 10Gi
+      reclaimPolicy: Retain
+      mountOptions:
+        - dir_mode=0777
+        - file_mode=0777
+        - uid=1000
+        - gid=1000
+        - mfsymlinks
+        - nobrl
+    # pro:
+    #   capacity: 100Gi
+    #   reclaimPolicy: Retain
+    #   mountOptions:
+    #     - dir_mode=0777
+    #     - file_mode=0777
+    #     - uid=1000
+    #     - gid=1000
+    #     - mfsymlinks
+    #     - nobrl
+    # ultra:
+    #   capacity: 1000Gi
+    #   reclaimPolicy: Retain
+    #   mountOptions:
+    #     - dir_mode=0777
+    #     - file_mode=0777
+    #     - uid=1000
+    #     - gid=1000
+    #     - mfsymlinks
+    #     - nobrl

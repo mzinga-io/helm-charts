@@ -117,6 +117,8 @@ Kubernetes: `>=1.25.0-0`
 | nodePool.spot.tolerations[0].key | string | `"kubernetes.azure.com/scalesetpriority"` |  |
 | nodePool.spot.tolerations[0].operator | string | `"Equal"` |  |
 | nodePool.spot.tolerations[0].value | string | `"spot"` |  |
+| persistence | object | `{"volumes":{"basic":{"capacity":"10Gi","mountOptions":["dir_mode=0777","file_mode=0777","uid=1000","gid=1000","mfsymlinks","nobrl"],"reclaimPolicy":"Retain"}}}` | Persistence section describe which volumes and claims will be created |
+| persistence.volumes | object | `{"basic":{"capacity":"10Gi","mountOptions":["dir_mode=0777","file_mode=0777","uid=1000","gid=1000","mfsymlinks","nobrl"],"reclaimPolicy":"Retain"}}` | Volumes specification |
 | publicServerURL | string | `"https://admin-demo.mzinga.io"` |  |
 | pvc_sync_hook.debug | bool | `false` |  |
 | pvc_sync_hook.enabled | bool | `true` |  |
@@ -136,10 +138,10 @@ Kubernetes: `>=1.25.0-0`
 | scheduler.name | string | `"mzinga-scheduler"` |  |
 | secret | string | `"cd9a7f30-e078-45fc-b6d2-9e4ebf6420ae"` |  |
 | sendgridApiKey | string | `""` |  |
-| storageClasses | object | `{"aws":{},"azure":{},"google":{}}` | Storage classes to be created for MZinga deployment. |
+| storageClasses | object | `{"aws":{},"azure":{},"google":{"enterpriseMultishareRWX":{"additionalParameters":{},"allowVolumeExpansion":true,"mountOptions":[],"parameters":{"instanceStorageclassLabel":"enterprise-multishare-rwx","maxVolumeSize":"256GiB","multishare":"true","tier":"enterprise"},"provisioner":"filestore.csi.storage.gke.io","reclaimPolicy":"Delete","volumeBindingMode":"Immediate"}}}` | Storage classes to be created for MZinga deployment. |
 | storageClasses.aws | object | `{}` | Storage classes to use AWS Elastic File system. refer to this documentation: https://aws.amazon.com/blogs/containers/introducing-efs-csi-dynamic-provisioning/ |
 | storageClasses.azure | object | `{}` | Storage classes to use Azure file shares. Refer to this documentation: https://learn.microsoft.com/en-us/azure/aks/azure-csi-files-storage-provision |
-| storageClasses.google | object | `{}` | Storage classes to use Google Filestore. refer to this documentation: https://cloud.google.com/filestore/docs/csi-driver#storage-class |
+| storageClasses.google | object | `{"enterpriseMultishareRWX":{"additionalParameters":{},"allowVolumeExpansion":true,"mountOptions":[],"parameters":{"instanceStorageclassLabel":"enterprise-multishare-rwx","maxVolumeSize":"256GiB","multishare":"true","tier":"enterprise"},"provisioner":"filestore.csi.storage.gke.io","reclaimPolicy":"Delete","volumeBindingMode":"Immediate"}}` | Storage classes to use Google Filestore. refer to this documentation: https://cloud.google.com/filestore/docs/csi-driver#storage-class |
 | sync.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[0].matchExpressions[0].key | string | `"mzinga.io/tenants"` |  |
 | sync.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[0].matchExpressions[0].operator | string | `"In"` |  |
 | sync.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[0].matchExpressions[0].values[0] | string | `"true"` |  |

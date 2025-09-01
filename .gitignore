@@ -3,3 +3,6 @@
 .idea
 .vscode
 .DS_Store
+
+# Temporary folders
+infrastructure/**/*/

@@ -33,10 +33,22 @@
 {{- end }}
 
 {{- define "mzinga.spot_affinity" }}
+  {{- if gt (len .Values.storageClasses.azure) 0 -}}
 - key: "kubernetes.azure.com/scalesetpriority"
   operator: "In"
   values:
   - "spot"
+  {{- else if gt (len .Values.storageClasses.aws) 0 -}}
+- key: "eks.amazonaws.com/capacityType"
+  operator: "In"
+  values:
+  - "SPOT"
+  {{- else if gt (len .Values.storageClasses.google) 0 -}}
+- key: "cloud.google.com/gke-provisioning"
+  operator: "In"
+  values:
+  - "spot"
+  {{- end -}}
 {{- end }}
 
 {{- define "mzinga.affinity" }}
@@ -45,13 +57,6 @@ affinity: {{- include "common.tplvalues.render" (dict "value" .affinity "context
     {{- if eq .context.Values.nodePool.priority "Spot" }}
       {{- include "mzinga.spot_affinity" .context | nindent 14 }}
     {{- end }}
-  {{- else -}}
-affinity:
-  nodeAffinity:
-    requiredDuringSchedulingIgnoredDuringExecution:
-      nodeSelectorTerms:
-      - matchExpressions:
-        {{- include "mzinga.spot_affinity" .context | nindent 14 }}
   {{- end }}
 {{- end }}
 
@@ -66,7 +71,7 @@ tolerations: {{- include "common.tplvalues.render" (dict "value" .tolerations "c
 
 
 {{- define "mzinga.image" }}
-image: {{ .image.registry }}/{{ .image.repository }}:{{ .image.tag }}
+image: {{ .image.registry }}/{{ .image.repository }}:{{ default "latest" .image.tag }}
 {{- end }}
 
 {{- define "mzinga.dd_unified_tagging.labels" }}

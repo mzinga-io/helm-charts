@@ -29,19 +29,17 @@ Kubernetes: `>=1.25.0-0`
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| api.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[0].matchExpressions[0].key | string | `"mzinga.io/tenants"` |  |
-| api.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[0].matchExpressions[0].operator | string | `"In"` |  |
-| api.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[0].matchExpressions[0].values[0] | string | `"true"` |  |
+| api.affinity | object | `{}` | Affinities for MZinga api service |
 | api.api_key | string | `""` |  |
 | api.customization.PAYLOAD_PUBLIC_DISABLED_ENTITIES_SLUGS | string | `"organizations,projects,environments,assets"` |  |
 | api.image.registry | string | `"newesissrl.azurecr.io"` |  |
 | api.image.repository | string | `"mzinga/payload/api"` |  |
-| api.image.tag | string | `"1.6.6"` |  |
+| api.image.tag | string | `""` |  |
 | api.ingress.annotations."cert-manager.io/cluster-issuer" | string | `"letsencrypt-production"` |  |
 | api.ingress.annotations."kubernetes.io/ingress.allow-http" | string | `"false"` |  |
-| api.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
 | api.ingress.annotations."kubernetes.io/tls-acme" | string | `"true"` |  |
 | api.ingress.annotations."nginx.ingress.kubernetes.io/proxy-body-size" | string | `"100m"` |  |
+| api.ingress.class | string | `"nginx"` | Name of the ingress class that will be used when creating api ingress resource. |
 | api.name | string | `"mzinga-api"` |  |
 | api.otel_console_exporter | string | `"1"` |  |
 | api.otel_log_level | string | `""` |  |
@@ -52,21 +50,19 @@ Kubernetes: `>=1.25.0-0`
 | api.resources.requests.cpu | float | `0.5` |  |
 | api.resources.requests.memory | string | `"250Mi"` |  |
 | api.tolerations | list | `[]` |  |
-| backoffice.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[0].matchExpressions[0].key | string | `"mzinga.io/tenants"` |  |
-| backoffice.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[0].matchExpressions[0].operator | string | `"In"` |  |
-| backoffice.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[0].matchExpressions[0].values[0] | string | `"true"` |  |
+| backoffice.affinity | object | `{}` |  |
 | backoffice.customization.PAYLOAD_PUBLIC_CUSTOM_ICON_SRC | string | `"https://via.placeholder.com/32x32/008000"` |  |
 | backoffice.customization.PAYLOAD_PUBLIC_CUSTOM_LOGO_SRC | string | `"https://via.placeholder.com/180x180/FFFF00"` |  |
 | backoffice.customization.PAYLOAD_PUBLIC_DISABLED_ENTITIES_SLUGS | string | `"organizations,projects,environments,assets"` |  |
 | backoffice.customization.PAYLOAD_PUBLIC_DISABLE_LOCAL_STRATEGY | string | `"0"` |  |
 | backoffice.image.registry | string | `"newesissrl.azurecr.io"` |  |
 | backoffice.image.repository | string | `"mzinga/payload/backoffice"` |  |
-| backoffice.image.tag | string | `"1.6.6"` |  |
+| backoffice.image.tag | string | `""` |  |
 | backoffice.ingress.annotations."cert-manager.io/cluster-issuer" | string | `"letsencrypt-production"` |  |
 | backoffice.ingress.annotations."kubernetes.io/ingress.allow-http" | string | `"false"` |  |
-| backoffice.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
 | backoffice.ingress.annotations."kubernetes.io/tls-acme" | string | `"true"` |  |
 | backoffice.ingress.annotations."nginx.ingress.kubernetes.io/proxy-body-size" | string | `"100m"` |  |
+| backoffice.ingress.class | string | `"nginx"` | Name of the ingress class that will be used when creating backoffice ingress resource. |
 | backoffice.name | string | `"mzinga-bo"` |  |
 | backoffice.otel_console_exporter | string | `"1"` |  |
 | backoffice.otel_log_level | string | `""` |  |
@@ -83,7 +79,7 @@ Kubernetes: `>=1.25.0-0`
 | containerPort | int | `3000` |  |
 | copy_files_hook.azuredevops_pat | string | `""` |  |
 | copy_files_hook.debug | bool | `false` |  |
-| copy_files_hook.enabled | bool | `true` |  |
+| copy_files_hook.enabled | bool | `false` |  |
 | copy_files_hook.name | string | `"mzinga-copy-files"` |  |
 | copy_files_hook.tolerations | list | `[]` |  |
 | cron_jobs.extensibility | string | `"ce-enabler"` |  |
@@ -105,8 +101,8 @@ Kubernetes: `>=1.25.0-0`
 | database.cron_jobs.secret | string | `"mzinga-db-jobs-secret"` |  |
 | database.cron_jobs.tolerations | list | `[]` |  |
 | database.cron_jobs.username | string | `"backup"` |  |
-| database.secretRef | string | `"percona-psmdb-db-users-creds"` |  |
-| database.serviceURI | string | `"percona-psmdb-db-rs0.perconadb.svc.cluster.local"` |  |
+| database.secretRef | string | `"mzinga-users-creds"` |  |
+| database.serviceURI | string | `"mongodb-psmdb-db-newesis.mongodb.svc.cluster.local"` |  |
 | env | string | `"production"` |  |
 | first_user_hook.debug | bool | `false` |  |
 | first_user_hook.name | string | `"mzinga-first-user"` |  |
@@ -121,16 +117,18 @@ Kubernetes: `>=1.25.0-0`
 | persistence.volumes | object | `{"basic":{"capacity":"10Gi","mountOptions":["dir_mode=0777","file_mode=0777","uid=1000","gid=1000","mfsymlinks","nobrl"],"reclaimPolicy":"Retain"}}` | Volumes specification |
 | publicServerURL | string | `"https://admin-demo.mzinga.io"` |  |
 | pvc_sync_hook.debug | bool | `false` |  |
-| pvc_sync_hook.enabled | bool | `true` |  |
+| pvc_sync_hook.enabled | bool | `false` |  |
 | pvc_sync_hook.name | string | `"mzinga-pvc-sync"` |  |
 | pvc_sync_hook.tolerations | list | `[]` |  |
-| sampleFrontend.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[0].matchExpressions[0].key | string | `"mzinga.io/tenants"` |  |
-| sampleFrontend.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[0].matchExpressions[0].operator | string | `"In"` |  |
-| sampleFrontend.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[0].matchExpressions[0].values[0] | string | `"true"` |  |
+| sampleFrontend.affinity | object | `{}` | Affinities for MZinga frontend service |
 | sampleFrontend.enabled | bool | `true` |  |
 | sampleFrontend.image.registry | string | `"newesissrl.azurecr.io"` |  |
-| sampleFrontend.image.repository | string | `"newesis/website/frontend"` |  |
-| sampleFrontend.image.tag | string | `"0.15.1"` |  |
+| sampleFrontend.image.repository | string | `"mzinga/payload/sample-frontend"` |  |
+| sampleFrontend.image.tag | string | `""` |  |
+| sampleFrontend.ingress.annotations."cert-manager.io/cluster-issuer" | string | `"letsencrypt-production"` |  |
+| sampleFrontend.ingress.annotations."kubernetes.io/ingress.allow-http" | string | `"false"` |  |
+| sampleFrontend.ingress.annotations."kubernetes.io/tls-acme" | string | `"true"` |  |
+| sampleFrontend.ingress.class | string | `"nginx"` | Name of the ingress class that will be used when creating frontend ingress resource. |
 | sampleFrontend.name | string | `"mzinga-sample-fe"` |  |
 | sampleFrontend.replicas | int | `1` |  |
 | sampleFrontend.tolerations | list | `[]` |  |
@@ -138,10 +136,10 @@ Kubernetes: `>=1.25.0-0`
 | scheduler.name | string | `"mzinga-scheduler"` |  |
 | secret | string | `"cd9a7f30-e078-45fc-b6d2-9e4ebf6420ae"` |  |
 | sendgridApiKey | string | `""` |  |
-| storageClasses | object | `{"aws":{},"azure":{},"google":{"enterpriseMultishareRWX":{"additionalParameters":{},"allowVolumeExpansion":true,"mountOptions":[],"parameters":{"instanceStorageclassLabel":"enterprise-multishare-rwx","maxVolumeSize":"256GiB","multishare":"true","tier":"enterprise"},"provisioner":"filestore.csi.storage.gke.io","reclaimPolicy":"Delete","volumeBindingMode":"Immediate"}}}` | Storage classes to be created for MZinga deployment. |
+| storageClasses | object | `{"aws":{},"azure":{},"google":{}}` | Storage classes to be created for MZinga deployment. |
 | storageClasses.aws | object | `{}` | Storage classes to use AWS Elastic File system. refer to this documentation: https://aws.amazon.com/blogs/containers/introducing-efs-csi-dynamic-provisioning/ |
 | storageClasses.azure | object | `{}` | Storage classes to use Azure file shares. Refer to this documentation: https://learn.microsoft.com/en-us/azure/aks/azure-csi-files-storage-provision |
-| storageClasses.google | object | `{"enterpriseMultishareRWX":{"additionalParameters":{},"allowVolumeExpansion":true,"mountOptions":[],"parameters":{"instanceStorageclassLabel":"enterprise-multishare-rwx","maxVolumeSize":"256GiB","multishare":"true","tier":"enterprise"},"provisioner":"filestore.csi.storage.gke.io","reclaimPolicy":"Delete","volumeBindingMode":"Immediate"}}` | Storage classes to use Google Filestore. refer to this documentation: https://cloud.google.com/filestore/docs/csi-driver#storage-class |
+| storageClasses.google | object | `{}` | Storage classes to use Google Filestore. refer to this documentation: https://cloud.google.com/filestore/docs/csi-driver#storage-class |
 | sync.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[0].matchExpressions[0].key | string | `"mzinga.io/tenants"` |  |
 | sync.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[0].matchExpressions[0].operator | string | `"In"` |  |
 | sync.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[0].matchExpressions[0].values[0] | string | `"true"` |  |
@@ -149,7 +147,7 @@ Kubernetes: `>=1.25.0-0`
 | sync.env | string | `"prod"` |  |
 | sync.image.registry | string | `"newesissrl.azurecr.io"` |  |
 | sync.image.repository | string | `"mzinga-to-zitadel"` |  |
-| sync.image.tag | string | `"3.0.81"` |  |
+| sync.image.tag | string | `""` |  |
 | sync.mzinga.apiKey | string | `""` |  |
 | sync.name | string | `"mzinga-to-zitadel"` |  |
 | sync.nodePool.priority | string | `"Regular"` |  |
@@ -194,16 +192,14 @@ Kubernetes: `>=1.25.0-0`
 | tenant.site.topPage.slug | string | `"about-us"` |  |
 | tenant.site.topPage.title | string | `"About Us"` |  |
 | tenant.site.topPage.uri | string | `"/about-us"` |  |
-| tenant.tier | string | `"pro"` |  |
+| tenant.tier | string | `"basic"` |  |
 | tolerations | list | `[]` |  |
-| ws.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[0].matchExpressions[0].key | string | `"mzinga.io/tenants"` |  |
-| ws.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[0].matchExpressions[0].operator | string | `"In"` |  |
-| ws.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[0].matchExpressions[0].values[0] | string | `"true"` |  |
+| ws.affinity | object | `{}` | Affinities for MZinga websocket service |
 | ws.customization | object | `{}` |  |
 | ws.enabled | bool | `true` |  |
 | ws.image.registry | string | `"newesissrl.azurecr.io"` |  |
 | ws.image.repository | string | `"mzinga/payload/ws-service"` |  |
-| ws.image.tag | string | `"1.0.40"` |  |
+| ws.image.tag | string | `""` |  |
 | ws.ingress.annotations."cert-manager.io/cluster-issuer" | string | `"letsencrypt-production"` |  |
 | ws.ingress.annotations."kubernetes.io/ingress.allow-http" | string | `"false"` |  |
 | ws.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |

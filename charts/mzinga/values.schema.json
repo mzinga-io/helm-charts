@@ -6,47 +6,7 @@
             "type": "object",
             "properties": {
                 "affinity": {
-                    "type": "object",
-                    "properties": {
-                        "nodeAffinity": {
-                            "type": "object",
-                            "properties": {
-                                "requiredDuringSchedulingIgnoredDuringExecution": {
-                                    "type": "object",
-                                    "properties": {
-                                        "nodeSelectorTerms": {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "object",
-                                                "properties": {
-                                                    "matchExpressions": {
-                                                        "type": "array",
-                                                        "items": {
-                                                            "type": "object",
-                                                            "properties": {
-                                                                "key": {
-                                                                    "type": "string"
-                                                                },
-                                                                "operator": {
-                                                                    "type": "string"
-                                                                },
-                                                                "values": {
-                                                                    "type": "array",
-                                                                    "items": {
-                                                                        "type": "string"
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    "type": "object"
                 },
                 "api_key": {
                     "type": "string"
@@ -85,9 +45,6 @@
                                 "kubernetes.io/ingress.allow-http": {
                                     "type": "string"
                                 },
-                                "kubernetes.io/ingress.class": {
-                                    "type": "string"
-                                },
                                 "kubernetes.io/tls-acme": {
                                     "type": "string"
                                 },
@@ -95,6 +52,9 @@
                                     "type": "string"
                                 }
                             }
+                        },
+                        "class": {
+                            "type": "string"
                         }
                     }
                 },
@@ -149,47 +109,7 @@
             "type": "object",
             "properties": {
                 "affinity": {
-                    "type": "object",
-                    "properties": {
-                        "nodeAffinity": {
-                            "type": "object",
-                            "properties": {
-                                "requiredDuringSchedulingIgnoredDuringExecution": {
-                                    "type": "object",
-                                    "properties": {
-                                        "nodeSelectorTerms": {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "object",
-                                                "properties": {
-                                                    "matchExpressions": {
-                                                        "type": "array",
-                                                        "items": {
-                                                            "type": "object",
-                                                            "properties": {
-                                                                "key": {
-                                                                    "type": "string"
-                                                                },
-                                                                "operator": {
-                                                                    "type": "string"
-                                                                },
-                                                                "values": {
-                                                                    "type": "array",
-                                                                    "items": {
-                                                                        "type": "string"
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    "type": "object"
                 },
                 "customization": {
                     "type": "object",
@@ -234,9 +154,6 @@
                                 "kubernetes.io/ingress.allow-http": {
                                     "type": "string"
                                 },
-                                "kubernetes.io/ingress.class": {
-                                    "type": "string"
-                                },
                                 "kubernetes.io/tls-acme": {
                                     "type": "string"
                                 },
@@ -244,6 +161,9 @@
                                     "type": "string"
                                 }
                             }
+                        },
+                        "class": {
+                            "type": "string"
                         }
                     }
                 },
@@ -472,6 +392,33 @@
                 }
             }
         },
+        "persistence": {
+            "type": "object",
+            "properties": {
+                "volumes": {
+                    "type": "object",
+                    "properties": {
+                        "basic": {
+                            "type": "object",
+                            "properties": {
+                                "capacity": {
+                                    "type": "string"
+                                },
+                                "mountOptions": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                "reclaimPolicy": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "publicServerURL": {
             "type": "string"
         },
@@ -496,47 +443,7 @@
             "type": "object",
             "properties": {
                 "affinity": {
-                    "type": "object",
-                    "properties": {
-                        "nodeAffinity": {
-                            "type": "object",
-                            "properties": {
-                                "requiredDuringSchedulingIgnoredDuringExecution": {
-                                    "type": "object",
-                                    "properties": {
-                                        "nodeSelectorTerms": {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "object",
-                                                "properties": {
-                                                    "matchExpressions": {
-                                                        "type": "array",
-                                                        "items": {
-                                                            "type": "object",
-                                                            "properties": {
-                                                                "key": {
-                                                                    "type": "string"
-                                                                },
-                                                                "operator": {
-                                                                    "type": "string"
-                                                                },
-                                                                "values": {
-                                                                    "type": "array",
-                                                                    "items": {
-                                                                        "type": "string"
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    "type": "object"
                 },
                 "enabled": {
                     "type": "boolean"
@@ -551,6 +458,28 @@
                             "type": "string"
                         },
                         "tag": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "ingress": {
+                    "type": "object",
+                    "properties": {
+                        "annotations": {
+                            "type": "object",
+                            "properties": {
+                                "cert-manager.io/cluster-issuer": {
+                                    "type": "string"
+                                },
+                                "kubernetes.io/ingress.allow-http": {
+                                    "type": "string"
+                                },
+                                "kubernetes.io/tls-acme": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "class": {
                             "type": "string"
                         }
                     }
@@ -582,6 +511,67 @@
         },
         "sendgridApiKey": {
             "type": "string"
+        },
+        "storageClasses": {
+            "type": "object",
+            "properties": {
+                "aws": {
+                    "type": "object"
+                },
+                "azure": {
+                    "type": "object"
+                },
+                "google": {
+                    "type": "object",
+                    "properties": {
+                        "enterpriseMultishareRWX": {
+                            "type": "object",
+                            "properties": {
+                                "additionalParameters": {
+                                    "type": "object",
+                                    "properties": {
+                                        "network": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "allowVolumeExpansion": {
+                                    "type": "boolean"
+                                },
+                                "mountOptions": {
+                                    "type": "array"
+                                },
+                                "parameters": {
+                                    "type": "object",
+                                    "properties": {
+                                        "instanceStorageclassLabel": {
+                                            "type": "string"
+                                        },
+                                        "maxVolumeSize": {
+                                            "type": "string"
+                                        },
+                                        "multishare": {
+                                            "type": "string"
+                                        },
+                                        "tier": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "provisioner": {
+                                    "type": "string"
+                                },
+                                "reclaimPolicy": {
+                                    "type": "string"
+                                },
+                                "volumeBindingMode": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         },
         "sync": {
             "type": "object",
@@ -881,47 +871,7 @@
             "type": "object",
             "properties": {
                 "affinity": {
-                    "type": "object",
-                    "properties": {
-                        "nodeAffinity": {
-                            "type": "object",
-                            "properties": {
-                                "requiredDuringSchedulingIgnoredDuringExecution": {
-                                    "type": "object",
-                                    "properties": {
-                                        "nodeSelectorTerms": {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "object",
-                                                "properties": {
-                                                    "matchExpressions": {
-                                                        "type": "array",
-                                                        "items": {
-                                                            "type": "object",
-                                                            "properties": {
-                                                                "key": {
-                                                                    "type": "string"
-                                                                },
-                                                                "operator": {
-                                                                    "type": "string"
-                                                                },
-                                                                "values": {
-                                                                    "type": "array",
-                                                                    "items": {
-                                                                        "type": "string"
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    "type": "object"
                 },
                 "customization": {
                     "type": "object"

@@ -9,7 +9,7 @@ tenant:
   firstName: "sample"
   lastName: "tenant"
   password: "84b60b91-628b-42e1-adf2-00c12482f27e"
-  tier: "pro"
+  tier: "basic"
   site:
     title: "Demo frontend"
     titleSuffix: "Demo frontend"
@@ -46,8 +46,8 @@ cron_jobs:
   ##
   tolerations: []
 database:
-  secretRef: percona-psmdb-db-users-creds
-  serviceURI: percona-psmdb-db-rs0.perconadb.svc.cluster.local
+  secretRef: mzinga-users-creds
+  serviceURI: mongodb-psmdb-db-newesis.mongodb.svc.cluster.local
   additionalOptions:
     api: readPreference=secondary
     backoffice: readPreference=primary
@@ -85,7 +85,7 @@ pvc_sync_hook:
   ## Enable debug mode
   ##
   debug: false
-  enabled: true
+  enabled: false
   ## Additional tolerations for pvc sync hook job
   ##
   tolerations: []
@@ -93,7 +93,7 @@ pvc_sync_hook:
 copy_files_hook:
   ## Enable copy_files Hook
   ##
-  enabled: true
+  enabled: false
   name: mzinga-copy-files
   debug: false
   azuredevops_pat: ""
@@ -111,26 +111,30 @@ backoffice:
   replicas: 1
   image:
     repository: mzinga/payload/backoffice
-    tag: 1.6.6
+    ## This will pull always latest version of the image,
+    ## specify this if you want to use a specific one.
+    tag: ""
     registry: newesissrl.azurecr.io
   publicURL: ""
   tolerations: []
   ingress:
+    # -- Name of the ingress class that will be used when creating backoffice ingress resource.
+    class: "nginx"
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-production
       kubernetes.io/ingress.allow-http: 'false'
-      kubernetes.io/ingress.class: nginx
       kubernetes.io/tls-acme: 'true'
       nginx.ingress.kubernetes.io/proxy-body-size: "100m"
-  affinity:
-    nodeAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-        nodeSelectorTerms:
-          - matchExpressions:
-              - key: mzinga.io/tenants
-                operator: In
-                values:
-                  - "true"
+  # -- Affinities for MZinga backoffice service
+  affinity: {}
+    # nodeAffinity:
+    #   requiredDuringSchedulingIgnoredDuringExecution:
+    #     nodeSelectorTerms:
+    #       - matchExpressions:
+    #           - key: mzinga.io/tenants
+    #             operator: In
+    #             values:
+    #               - "true"
   resources:
     requests:
       memory: 250Mi
@@ -150,27 +154,29 @@ api:
   replicas: 1
   image:
     repository: mzinga/payload/api
-    tag: 1.6.6
+    tag: ""
     registry: newesissrl.azurecr.io
   publicURL: ""
   api_key: ""
   tolerations: []
   ingress:
+    # -- Name of the ingress class that will be used when creating api ingress resource.
+    class: "nginx"
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-production
       kubernetes.io/ingress.allow-http: 'false'
-      kubernetes.io/ingress.class: nginx
       kubernetes.io/tls-acme: 'true'
       nginx.ingress.kubernetes.io/proxy-body-size: "100m"
-  affinity:
-    nodeAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-        nodeSelectorTerms:
-          - matchExpressions:
-              - key: mzinga.io/tenants
-                operator: In
-                values:
-                  - "true"
+  # -- Affinities for MZinga api service
+  affinity: {}
+    # nodeAffinity:
+    #   requiredDuringSchedulingIgnoredDuringExecution:
+    #     nodeSelectorTerms:
+    #       - matchExpressions:
+    #           - key: mzinga.io/tenants
+    #             operator: In
+    #             values:
+    #               - "true"
   resources:
     requests:
       memory: 250Mi
@@ -188,7 +194,7 @@ ws:
   replicas: 1
   image:
     repository: mzinga/payload/ws-service
-    tag: 1.0.40
+    tag: ""
     registry: newesissrl.azurecr.io
   publicURL: ""
   tolerations: []
@@ -201,15 +207,16 @@ ws:
       nginx.ingress.kubernetes.io/proxy-body-size: "100m"
       nginx.ingress.kubernetes.io/proxy-read-timeout: "7200"
       nginx.ingress.kubernetes.io/proxy-send-timeout: "7200"
-  affinity:
-    nodeAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-        nodeSelectorTerms:
-          - matchExpressions:
-              - key: mzinga.io/tenants
-                operator: In
-                values:
-                  - "true"
+  # -- Affinities for MZinga websocket service
+  affinity: {}
+    # nodeAffinity:
+    #   requiredDuringSchedulingIgnoredDuringExecution:
+    #     nodeSelectorTerms:
+    #       - matchExpressions:
+    #           - key: mzinga.io/tenants
+    #             operator: In
+    #             values:
+    #               - "true"
   resources:
     requests:
       memory: 250Mi
@@ -225,19 +232,27 @@ sampleFrontend:
   name: mzinga-sample-fe
   replicas: 1
   image:
-    repository: newesis/website/frontend
-    tag: 0.15.1
+    repository: mzinga/payload/sample-frontend
+    tag: ""
     registry: newesissrl.azurecr.io
+  ingress:
+    # -- Name of the ingress class that will be used when creating frontend ingress resource.
+    class: "nginx"
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-production
+      kubernetes.io/ingress.allow-http: 'false'
+      kubernetes.io/tls-acme: 'true'
   tolerations: []
-  affinity:
-    nodeAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-        nodeSelectorTerms:
-          - matchExpressions:
-              - key: mzinga.io/tenants
-                operator: In
-                values:
-                  - "true"
+  # -- Affinities for MZinga frontend service
+  affinity: {}
+    # nodeAffinity:
+    #   requiredDuringSchedulingIgnoredDuringExecution:
+    #     nodeSelectorTerms:
+    #       - matchExpressions:
+    #           - key: mzinga.io/tenants
+    #             operator: In
+    #             values:
+    #               - "true"
 sync:
   enabled: false
   name: mzinga-to-zitadel
@@ -245,7 +260,7 @@ sync:
   env: prod
   image:
     repository: mzinga-to-zitadel
-    tag: 3.0.81
+    tag: ""
     registry: newesissrl.azurecr.io
   otel:
     disableTracing: "0"
@@ -364,23 +379,27 @@ storageClasses:
     #   reclaimPolicy: Delete
     #   mountOptions: []
     #   allowVolumeExpansion: true
-    #   volumeBindingMode: Immediate
+    #   volumeBindingMode: WaitForFirstConsumer
   # -- Storage classes to use Google Filestore. refer to this documentation: https://cloud.google.com/filestore/docs/csi-driver#storage-class
-  google:
-    enterpriseMultishareRWX:
-      provisioner: filestore.csi.storage.gke.io
-      parameters:
-        tier: "enterprise"
-        multishare: "true"
-        instanceStorageclassLabel: "enterprise-multishare-rwx"
-        ## Refer to this documentation to better understand: https://cloud.google.com/filestore/docs/optimize-multishares#create_a_custom_storageclass
-        ##
-        maxVolumeSize: "256GiB"
-      additionalParameters: {}
-      mountOptions: []
-      reclaimPolicy: Delete
-      allowVolumeExpansion: true
-      volumeBindingMode: Immediate
+  google: {}
+  #   enterpriseMultishareRWX:
+  #     provisioner: filestore.csi.storage.gke.io
+  #     parameters:
+  #       tier: "enterprise"
+  #       multishare: "true"
+  #       instanceStorageclassLabel: "enterprise-multishare-rwx"
+  #       ## Refer to this documentation to better understand: https://cloud.google.com/filestore/docs/optimize-multishares#create_a_custom_storageclass
+  #       ##
+  #       maxVolumeSize: "256Gi"
+  #     ## You may need this if you want to specify parameters
+  #     ## for advanced configuration (i.e.: network, etc.).
+  #     ## Refer to this: http://cloud.google.com/kubernetes-engine/docs/how-to/persistent-volumes/filestore-csi-driver#storage-class
+  #     additionalParameters:
+  #       network: "default"
+  #     mountOptions: []
+  #     reclaimPolicy: Delete
+  #     allowVolumeExpansion: true
+  #     volumeBindingMode: WaitForFirstConsumer
 
 # -- Persistence section describe which volumes and claims will be created
 persistence:

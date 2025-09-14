@@ -18,7 +18,7 @@ parameters:
   tier: {{ $v.parameters.tier }}
   multishare: {{ $v.parameters.multishare | quote }}
   instance-storageclass-label: {{ $v.parameters.instanceStorageclassLabel }}
-  maxVolumeSize: {{ $v.parameters.maxVolumeSize }}
+  max-volume-size: {{ $v.parameters.maxVolumeSize }}
 {{- with $v.additionalParameters }}
   {{- toYaml . | nindent 2 }}
 {{- end }}

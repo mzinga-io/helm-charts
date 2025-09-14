@@ -121,6 +121,7 @@ metadata:
     {{- toYaml . | nindent 4 }}
     {{- end }}
 spec:
+  ingressClassName: {{ .Values.backoffice.ingress.class }}
   tls:
     - hosts:
         - admin-{{ .Values.tenant.name }}.{{ .Values.basedns }}

@@ -123,11 +123,11 @@ metadata:
     helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
   annotations:
     releaseTime: {{ dateInZone "2006-01-02T15:04:05Z" (now) "UTC" | quote }}
-    cert-manager.io/cluster-issuer: letsencrypt-production
-    kubernetes.io/ingress.allow-http: 'false'
-    kubernetes.io/ingress.class: nginx
-    kubernetes.io/tls-acme: 'true'
+    {{- with .Values.sampleFrontend.ingress.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
 spec:
+  ingressClassName: {{ .Values.sampleFrontend.ingress.class }}
   tls:
     - hosts:
         - sample-fe-{{ .Values.tenant.name }}.{{ .Values.basedns }}

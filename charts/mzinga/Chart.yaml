@@ -1,0 +1,26 @@
+apiVersion: v2
+description: A Helm chart for Kubernetes to deploy an m'zinga instance.
+icon: https://www.newesis.com/wp-content/uploads/2019/05/cropped-newesis.png
+type: application
+maintainers:
+  - name: newesis team
+    email: newesis.support@newesis.com
+    url: https://www.newesis.com/#:~:text=as%2Da%2Dservice-,Our%20People
+name: mzinga
+sources:
+  - https://github.com/mzinga-io/helm-charts
+  - https://github.com/mzinga-io/mzinga-apps
+version: 1.23.0
+appVersion: "1.7.1"
+kubeVersion: ">=1.25.0-0"
+home: https://github.com/mzinga-io/mzinga-apps
+keywords:
+  - mzinga
+  - newesis
+dependencies:
+  - name: common
+    version: 2.31.3
+    repository: https://charts.bitnami.com/bitnami
+    condition: common.enabled
+    tags:
+      - newesis-common

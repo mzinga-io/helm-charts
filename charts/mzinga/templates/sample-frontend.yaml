@@ -1,0 +1,146 @@
+{{- if .Values.sampleFrontend.enabled -}}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.sampleFrontend.name }}
+  labels:
+    app: mzinga-frontend
+    role: sample-frontend
+    helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    {{- include "mzinga.dd_unified_tagging.labels" (dict "item" .Values.sampleFrontend "context" $) | nindent 4 }}
+  annotations:
+    releaseTime: {{ dateInZone "2006-01-02T15:04:05Z" (now) "UTC" | quote }}
+spec:
+  replicas: {{ include "mzinga.deployment.replicas" (dict "tier" .Values.tenant.tier "replicas" .Values.sampleFrontend.replicas) }}
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: mzinga-frontend
+      role: sample-frontend
+  template:
+    metadata:
+      labels:
+        app: mzinga-frontend
+        role: sample-frontend
+        helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+        {{- include "mzinga.dd_unified_tagging.labels" (dict "item" .Values.sampleFrontend "context" $) | nindent 8 }}
+      annotations:
+        releaseTime: {{ dateInZone "2006-01-02T15:04:05Z" (now) "UTC" | quote }}
+    spec:
+      {{- include "mzinga.affinity" (dict "affinity" .Values.sampleFrontend.affinity "context" $) | nindent 6 }}
+      {{- include "mzinga.tolerations" (dict "tolerations" .Values.sampleFrontend.tolerations "context" $) | nindent 6 }}
+      containers:
+        - name: sample-frontend
+          {{- include "mzinga.image" (dict "image" .Values.sampleFrontend.image "context" $) | nindent 10 }}
+          ports:
+            - containerPort: {{ .Values.containerPort | default 3000 }}
+          env:
+            - name: REACT_APP_API_BASE_URL
+              value: https://api-{{ .Values.tenant.name }}.{{ .Values.basedns }}
+            - name: REACT_APP_WS_BASE_URL
+              value: "wss://ws-{{ .Values.tenant.name }}.{{ .Values.basedns }}"
+            {{- include "mzinga.dd_unified_tagging.env_variables" . | nindent 12 }}
+            - name: REACT_APP_TITLE_SUFFIX
+              value: {{ .Values.tenant.site.titleSuffix }}
+            - name: REACT_APP_TOP_CARD_LIST_TITLE
+              value: {{ .Values.tenant.site.topCardList.title }}
+            - name: REACT_APP_TOP_CARD_LIST_TAG
+              value: {{ .Values.tenant.site.topCardList.tag }}
+            - name: REACT_APP_BOTTOM_CARD_LIST_TITLE
+              value: {{ .Values.tenant.site.bottomCardList.title }}
+            - name: REACT_APP_BOTTOM_CARD_LIST_TAG
+              value: {{ .Values.tenant.site.bottomCardList.tag }}
+            - name: REACT_APP_TOP_PAGE_TITLE
+              value: {{ .Values.tenant.site.topPage.title }}
+            - name: REACT_APP_TOP_PAGE_SLUG
+              value: {{ .Values.tenant.site.topPage.slug }}
+            - name: REACT_APP_TOP_PAGE_URI
+              value: "{{ .Values.tenant.site.topPage.uri }}"
+            - name: REACT_APP_FORM_PAGE_TITLE
+              value: {{ .Values.tenant.site.formPage.title }}
+            - name: REACT_APP_FORM_PAGE_SLUG
+              value: {{ .Values.tenant.site.formPage.slug }}
+            - name: REACT_APP_FORM_PAGE_URI
+              value: "{{ .Values.tenant.site.formPage.uri }}"
+            - name: TENANT
+              value: {{ .Values.tenant.name }}
+            - name: TITLE
+              value: {{ .Values.tenant.site.title }}
+            - name: DESCRIPTION
+              value: {{ .Values.tenant.site.description }}
+          livenessProbe:
+            httpGet:
+              path: /probes/health
+              port: 3000
+              scheme: HTTP
+            initialDelaySeconds: 5
+            timeoutSeconds: 3
+            periodSeconds: 90
+            successThreshold: 1
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /probes/ready
+              port: 3000
+              scheme: HTTP
+            initialDelaySeconds: 2
+            timeoutSeconds: 1
+            periodSeconds: 30
+            successThreshold: 1
+            failureThreshold: 3
+          volumeMounts:
+          - mountPath: "/app/build/{{ .Values.tenant.name }}"
+            name: tenant-mount
+      volumes:
+      - name: tenant-mount
+        persistentVolumeClaim:
+          claimName: {{ .Values.tenant.name }}-pvc-{{ .Values.tenant.tier }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.sampleFrontend.name }}-svc
+  labels:
+    helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+  annotations:
+    releaseTime: {{ dateInZone "2006-01-02T15:04:05Z" (now) "UTC" | quote }}
+spec:
+  selector:
+    app: mzinga-frontend
+    role: sample-frontend
+  ports:
+    - name: app
+      protocol: TCP
+      port: 3000
+      targetPort: 3000
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Values.sampleFrontend.name }}-ingress
+  labels:
+    helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+  annotations:
+    releaseTime: {{ dateInZone "2006-01-02T15:04:05Z" (now) "UTC" | quote }}
+    {{- with .Values.sampleFrontend.ingress.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  ingressClassName: {{ .Values.sampleFrontend.ingress.class }}
+  tls:
+    - hosts:
+        - sample-fe-{{ .Values.tenant.name }}.{{ .Values.basedns }}
+      secretName: sample-fe-certificates
+  rules:
+    - host: sample-fe-{{ .Values.tenant.name }}.{{ .Values.basedns }}
+      http:
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: {{ .Values.sampleFrontend.name }}-svc
+                port:
+                  number: 3000
+{{- end -}}

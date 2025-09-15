@@ -111,8 +111,7 @@ backoffice:
   replicas: 1
   image:
     repository: mzinga/payload/backoffice
-    ## This will pull always latest version of the image,
-    ## specify this if you want to use a specific one.
+    # renovate: image=mzinga-io/mzinga-apps
     tag: ""
     registry: newesissrl.azurecr.io
   publicURL: ""
@@ -154,6 +153,7 @@ api:
   replicas: 1
   image:
     repository: mzinga/payload/api
+    # renovate: image=mzinga-io/mzinga-apps
     tag: ""
     registry: newesissrl.azurecr.io
   publicURL: ""

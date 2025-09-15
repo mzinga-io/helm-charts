@@ -11,6 +11,7 @@ sources:
   - https://github.com/mzinga-io/helm-charts
   - https://github.com/mzinga-io/mzinga-apps
 version: 1.23.0
+# renovate: image=mzinga-io/mzinga-apps
 appVersion: "1.7.1"
 kubeVersion: ">=1.25.0-0"
 home: https://github.com/mzinga-io/mzinga-apps

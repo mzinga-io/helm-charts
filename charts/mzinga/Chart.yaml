@@ -19,7 +19,7 @@ keywords:
   - newesis
 dependencies:
   - name: common
-    version: 2.31.3
+    version: 2.31.4
     repository: https://charts.bitnami.com/bitnami
     condition: common.enabled
     tags:

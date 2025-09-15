@@ -8,7 +8,9 @@ registries:
   acr:
     type: docker-registry
     url: newesissrl.azurecr.io
-    
+    username: newesissrl
+    password: ${{ secrets.AZURE_CONTAINER_REGISTRY_PASSWORD }}
+
 updates:
   - package-ecosystem: "docker" # See documentation for possible values
     directory: "/charts/mzinga" # Location of package manifests

@@ -29,177 +29,127 @@ Kubernetes: `>=1.25.0-0`
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| api.affinity | object | `{}` | Affinities for MZinga api service |
-| api.api_key | string | `""` |  |
-| api.customization.PAYLOAD_PUBLIC_DISABLED_ENTITIES_SLUGS | string | `"organizations,projects,environments,assets"` |  |
-| api.image.registry | string | `"newesissrl.azurecr.io"` |  |
-| api.image.repository | string | `"mzinga/payload/api"` |  |
-| api.image.tag | string | `""` |  |
-| api.ingress.annotations."cert-manager.io/cluster-issuer" | string | `"letsencrypt-production"` |  |
-| api.ingress.annotations."kubernetes.io/ingress.allow-http" | string | `"false"` |  |
-| api.ingress.annotations."kubernetes.io/tls-acme" | string | `"true"` |  |
-| api.ingress.annotations."nginx.ingress.kubernetes.io/proxy-body-size" | string | `"100m"` |  |
-| api.ingress.class | string | `"nginx"` | Name of the ingress class that will be used when creating api ingress resource. |
-| api.name | string | `"mzinga-api"` |  |
-| api.otel_console_exporter | string | `"1"` |  |
-| api.otel_log_level | string | `""` |  |
-| api.publicURL | string | `""` |  |
-| api.replicas | int | `1` |  |
-| api.resources.limits.cpu | int | `1` |  |
-| api.resources.limits.memory | string | `"500Mi"` |  |
-| api.resources.requests.cpu | float | `0.5` |  |
-| api.resources.requests.memory | string | `"250Mi"` |  |
-| api.tolerations | list | `[]` |  |
-| backoffice.affinity | object | `{}` |  |
-| backoffice.customization.PAYLOAD_PUBLIC_CUSTOM_ICON_SRC | string | `"https://via.placeholder.com/32x32/008000"` |  |
-| backoffice.customization.PAYLOAD_PUBLIC_CUSTOM_LOGO_SRC | string | `"https://via.placeholder.com/180x180/FFFF00"` |  |
-| backoffice.customization.PAYLOAD_PUBLIC_DISABLED_ENTITIES_SLUGS | string | `"organizations,projects,environments,assets"` |  |
-| backoffice.customization.PAYLOAD_PUBLIC_DISABLE_LOCAL_STRATEGY | string | `"0"` |  |
-| backoffice.image.registry | string | `"newesissrl.azurecr.io"` |  |
-| backoffice.image.repository | string | `"mzinga/payload/backoffice"` |  |
-| backoffice.image.tag | string | `""` |  |
-| backoffice.ingress.annotations."cert-manager.io/cluster-issuer" | string | `"letsencrypt-production"` |  |
-| backoffice.ingress.annotations."kubernetes.io/ingress.allow-http" | string | `"false"` |  |
-| backoffice.ingress.annotations."kubernetes.io/tls-acme" | string | `"true"` |  |
-| backoffice.ingress.annotations."nginx.ingress.kubernetes.io/proxy-body-size" | string | `"100m"` |  |
-| backoffice.ingress.class | string | `"nginx"` | Name of the ingress class that will be used when creating backoffice ingress resource. |
-| backoffice.name | string | `"mzinga-bo"` |  |
-| backoffice.otel_console_exporter | string | `"1"` |  |
-| backoffice.otel_log_level | string | `""` |  |
-| backoffice.publicURL | string | `""` |  |
-| backoffice.replicas | int | `1` |  |
-| backoffice.resources.limits.cpu | int | `1` |  |
-| backoffice.resources.limits.memory | string | `"500Mi"` |  |
-| backoffice.resources.requests.cpu | float | `0.5` |  |
-| backoffice.resources.requests.memory | string | `"250Mi"` |  |
-| backoffice.tolerations | list | `[]` |  |
 | basedns | string | `"mzinga.io"` |  |
-| common.enabled | bool | `true` |  |
-| common.name | string | `"mzinga-common"` |  |
 | containerPort | int | `3000` |  |
-| copy_files_hook.azuredevops_pat | string | `""` |  |
-| copy_files_hook.debug | bool | `false` |  |
-| copy_files_hook.enabled | bool | `false` |  |
-| copy_files_hook.name | string | `"mzinga-copy-files"` |  |
-| copy_files_hook.tolerations | list | `[]` |  |
-| cron_jobs.extensibility | string | `"ce-enabler"` |  |
-| cron_jobs.scheduler | string | `"time-based-executions"` |  |
-| cron_jobs.tolerations | list | `[]` |  |
-| database.additionalOptions.api | string | `"readPreference=secondary"` |  |
-| database.additionalOptions.backoffice | string | `"readPreference=primary"` |  |
-| database.additionalOptions.ws | string | `"readPreference=secondary"` |  |
-| database.backup_enabled | bool | `true` |  |
-| database.cron_jobs.azure_storage.account | string | `""` |  |
-| database.cron_jobs.azure_storage.container | string | `""` |  |
-| database.cron_jobs.azure_storage.credentials_key | string | `""` |  |
-| database.cron_jobs.azure_storage.prefix | string | `""` |  |
-| database.cron_jobs.backup | string | `"mzinga-db-backup-job"` |  |
-| database.cron_jobs.configmap_scripts | string | `"mzinga-db-jobs-scripts"` |  |
-| database.cron_jobs.password | string | `"backup123456"` |  |
-| database.cron_jobs.restore | string | `"mzinga-db-restore-job"` |  |
-| database.cron_jobs.scheduled_hour | int | `2` |  |
-| database.cron_jobs.secret | string | `"mzinga-db-jobs-secret"` |  |
-| database.cron_jobs.tolerations | list | `[]` |  |
-| database.cron_jobs.username | string | `"backup"` |  |
-| database.secretRef | string | `"mzinga-users-creds"` |  |
-| database.serviceURI | string | `"mongodb-psmdb-db-newesis.mongodb.svc.cluster.local"` |  |
 | env | string | `"production"` |  |
-| first_user_hook.debug | bool | `false` |  |
-| first_user_hook.name | string | `"mzinga-first-user"` |  |
-| first_user_hook.tolerations | list | `[]` |  |
 | graphql_disable_displayground_in_production | string | `"1"` |  |
-| nodePool.priority | string | `"Regular"` |  |
-| nodePool.spot.tolerations[0].effect | string | `"NoSchedule"` |  |
-| nodePool.spot.tolerations[0].key | string | `"kubernetes.azure.com/scalesetpriority"` |  |
-| nodePool.spot.tolerations[0].operator | string | `"Equal"` |  |
-| nodePool.spot.tolerations[0].value | string | `"spot"` |  |
-| persistence | object | `{"volumes":{"basic":{"capacity":"10Gi","mountOptions":["dir_mode=0777","file_mode=0777","uid=1000","gid=1000","mfsymlinks","nobrl"],"reclaimPolicy":"Retain"}}}` | Persistence section describe which volumes and claims will be created |
-| persistence.volumes | object | `{"basic":{"capacity":"10Gi","mountOptions":["dir_mode=0777","file_mode=0777","uid=1000","gid=1000","mfsymlinks","nobrl"],"reclaimPolicy":"Retain"}}` | Volumes specification |
-| publicServerURL | string | `"https://admin-demo.mzinga.io"` |  |
-| pvc_sync_hook.debug | bool | `false` |  |
-| pvc_sync_hook.enabled | bool | `false` |  |
-| pvc_sync_hook.name | string | `"mzinga-pvc-sync"` |  |
-| pvc_sync_hook.tolerations | list | `[]` |  |
-| sampleFrontend.affinity | object | `{}` | Affinities for MZinga frontend service |
-| sampleFrontend.enabled | bool | `true` |  |
-| sampleFrontend.image.registry | string | `"newesissrl.azurecr.io"` |  |
-| sampleFrontend.image.repository | string | `"mzinga/payload/sample-frontend"` |  |
-| sampleFrontend.image.tag | string | `""` |  |
-| sampleFrontend.ingress.annotations."cert-manager.io/cluster-issuer" | string | `"letsencrypt-production"` |  |
-| sampleFrontend.ingress.annotations."kubernetes.io/ingress.allow-http" | string | `"false"` |  |
-| sampleFrontend.ingress.annotations."kubernetes.io/tls-acme" | string | `"true"` |  |
-| sampleFrontend.ingress.class | string | `"nginx"` | Name of the ingress class that will be used when creating frontend ingress resource. |
-| sampleFrontend.name | string | `"mzinga-sample-fe"` |  |
-| sampleFrontend.replicas | int | `1` |  |
-| sampleFrontend.tolerations | list | `[]` |  |
-| scheduler.debug | bool | `true` |  |
-| scheduler.name | string | `"mzinga-scheduler"` |  |
-| secret | string | `"cd9a7f30-e078-45fc-b6d2-9e4ebf6420ae"` |  |
-| sendgridApiKey | string | `""` |  |
-| storageClasses | object | `{"aws":{},"azure":{},"google":{}}` | Storage classes to be created for MZinga deployment. |
-| storageClasses.aws | object | `{}` | Storage classes to use AWS Elastic File system. refer to this documentation: https://aws.amazon.com/blogs/containers/introducing-efs-csi-dynamic-provisioning/ |
-| storageClasses.azure | object | `{}` | Storage classes to use Azure file shares. Refer to this documentation: https://learn.microsoft.com/en-us/azure/aks/azure-csi-files-storage-provision |
-| storageClasses.google | object | `{}` | Storage classes to use Google Filestore. refer to this documentation: https://cloud.google.com/filestore/docs/csi-driver#storage-class |
-| sync.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[0].matchExpressions[0].key | string | `"mzinga.io/tenants"` |  |
-| sync.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[0].matchExpressions[0].operator | string | `"In"` |  |
-| sync.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[0].matchExpressions[0].values[0] | string | `"true"` |  |
-| sync.enabled | bool | `false` |  |
-| sync.env | string | `"prod"` |  |
-| sync.image.registry | string | `"newesissrl.azurecr.io"` |  |
-| sync.image.repository | string | `"mzinga-to-zitadel"` |  |
-| sync.image.tag | string | `""` |  |
-| sync.mzinga.apiKey | string | `""` |  |
-| sync.name | string | `"mzinga-to-zitadel"` |  |
-| sync.nodePool.priority | string | `"Regular"` |  |
-| sync.nodePool.spot.tolerations[0].effect | string | `"NoSchedule"` |  |
-| sync.nodePool.spot.tolerations[0].key | string | `"kubernetes.azure.com/scalesetpriority"` |  |
-| sync.nodePool.spot.tolerations[0].operator | string | `"Equal"` |  |
-| sync.nodePool.spot.tolerations[0].value | string | `"spot"` |  |
-| sync.otel.consoleExporter | string | `"1"` |  |
-| sync.otel.disableTracing | string | `"0"` |  |
-| sync.otel.logLevel | string | `"debug"` |  |
-| sync.replicas | int | `1` |  |
-| sync.repository.baseUrl | string | `"https://dev.azure.com/newesis/Code%20Name%20MZinga"` |  |
-| sync.repository.commitsUrl | string | `"/_apis/git/repositories/infrastructure/commits?searchCriteria.%24top=1&searchCriteria.itemVersion.version=main&api-version=7.1-preview.1"` |  |
-| sync.repository.instancesUrl | string | `"/_apis/git/repositories/infrastructure/items?download=false&api-version=7.1-preview.1&scopePath=/__instances__/mzinga-prod.tfvars.json"` |  |
-| sync.repository.pat | string | `""` |  |
-| sync.repository.pushesUrl | string | `"/_apis/git/repositories/infrastructure/pushes?api-version=7.1-preview.2"` |  |
-| sync.repository.queueUrl | string | `"/_apis/pipelines/59/runs?api-version=7.1-preview.1"` |  |
-| sync.resources.limits.cpu | int | `1` |  |
-| sync.resources.limits.memory | string | `"500Mi"` |  |
-| sync.resources.requests.cpu | float | `0.5` |  |
-| sync.resources.requests.memory | string | `"250Mi"` |  |
-| sync.tolerations | list | `[]` |  |
-| sync.zitadel.bearerToken | string | `""` |  |
-| telemetry.exporter_otlp_endpoint | string | `"http://opentelemetry-collector-mzinga.monitoring:4318"` |  |
-| telemetry.tempo_service_name | string | `"tempo.monitoring"` |  |
+| tenant.name | string | `"demo"` |  |
 | tenant.email | string | `"info@mzinga.io"` |  |
 | tenant.env | string | `"prod"` |  |
 | tenant.firstName | string | `"sample"` |  |
 | tenant.lastName | string | `"tenant"` |  |
-| tenant.name | string | `"demo"` |  |
 | tenant.password | string | `"84b60b91-628b-42e1-adf2-00c12482f27e"` |  |
-| tenant.site.bottomCardList.tag | string | `"people"` |  |
-| tenant.site.bottomCardList.title | string | `"Our People"` |  |
-| tenant.site.description | string | `"Demo frontend"` |  |
-| tenant.site.formPage.slug | string | `"contact-us"` |  |
-| tenant.site.formPage.title | string | `"Contact Us"` |  |
-| tenant.site.formPage.uri | string | `"/contact-us"` |  |
+| tenant.tier | string | `"basic"` |  |
 | tenant.site.title | string | `"Demo frontend"` |  |
 | tenant.site.titleSuffix | string | `"Demo frontend"` |  |
-| tenant.site.topCardList.tag | string | `"services"` |  |
+| tenant.site.description | string | `"Demo frontend"` |  |
 | tenant.site.topCardList.title | string | `"Our Services"` |  |
-| tenant.site.topPage.slug | string | `"about-us"` |  |
+| tenant.site.topCardList.tag | string | `"services"` |  |
+| tenant.site.bottomCardList.title | string | `"Our People"` |  |
+| tenant.site.bottomCardList.tag | string | `"people"` |  |
 | tenant.site.topPage.title | string | `"About Us"` |  |
+| tenant.site.topPage.slug | string | `"about-us"` |  |
 | tenant.site.topPage.uri | string | `"/about-us"` |  |
-| tenant.tier | string | `"basic"` |  |
-| tolerations | list | `[]` |  |
-| ws.affinity | object | `{}` | Affinities for MZinga websocket service |
-| ws.customization | object | `{}` |  |
+| tenant.site.formPage.title | string | `"Contact Us"` |  |
+| tenant.site.formPage.slug | string | `"contact-us"` |  |
+| tenant.site.formPage.uri | string | `"/contact-us"` |  |
+| nodePool.priority | string | `"Regular"` |  |
+| nodePool.spot.tolerations[0].key | string | `"kubernetes.azure.com/scalesetpriority"` |  |
+| nodePool.spot.tolerations[0].operator | string | `"Equal"` |  |
+| nodePool.spot.tolerations[0].value | string | `"spot"` |  |
+| nodePool.spot.tolerations[0].effect | string | `"NoSchedule"` |  |
+| secret | string | `"cd9a7f30-e078-45fc-b6d2-9e4ebf6420ae"` |  |
+| sendgridApiKey | string | `""` |  |
+| publicServerURL | string | `"https://admin-demo.mzinga.io"` |  |
+| cron_jobs.extensibility | string | `"ce-enabler"` |  |
+| cron_jobs.scheduler | string | `"time-based-executions"` |  |
+| cron_jobs.tolerations | list | `[]` |  |
+| database.secretRef | string | `"mzinga-users-creds"` |  |
+| database.serviceURI | string | `"mongodb-psmdb-db-newesis.mongodb.svc.cluster.local"` |  |
+| database.additionalOptions.api | string | `"readPreference=secondary"` |  |
+| database.additionalOptions.backoffice | string | `"readPreference=primary"` |  |
+| database.additionalOptions.ws | string | `"readPreference=secondary"` |  |
+| database.backup_enabled | bool | `true` |  |
+| database.cron_jobs.username | string | `"backup"` |  |
+| database.cron_jobs.password | string | `"backup123456"` |  |
+| database.cron_jobs.configmap_scripts | string | `"mzinga-db-jobs-scripts"` |  |
+| database.cron_jobs.secret | string | `"mzinga-db-jobs-secret"` |  |
+| database.cron_jobs.azure_storage.account | string | `""` |  |
+| database.cron_jobs.azure_storage.container | string | `""` |  |
+| database.cron_jobs.azure_storage.prefix | string | `""` |  |
+| database.cron_jobs.azure_storage.credentials_key | string | `""` |  |
+| database.cron_jobs.backup | string | `"mzinga-db-backup-job"` |  |
+| database.cron_jobs.restore | string | `"mzinga-db-restore-job"` |  |
+| database.cron_jobs.scheduled_hour | int | `2` |  |
+| database.cron_jobs.tolerations | list | `[]` |  |
+| first_user_hook.name | string | `"mzinga-first-user"` |  |
+| first_user_hook.debug | bool | `false` |  |
+| first_user_hook.tolerations | list | `[]` |  |
+| pvc_sync_hook.name | string | `"mzinga-pvc-sync"` |  |
+| pvc_sync_hook.debug | bool | `false` |  |
+| pvc_sync_hook.enabled | bool | `false` |  |
+| pvc_sync_hook.tolerations | list | `[]` |  |
+| copy_files_hook.enabled | bool | `false` |  |
+| copy_files_hook.name | string | `"mzinga-copy-files"` |  |
+| copy_files_hook.debug | bool | `false` |  |
+| copy_files_hook.azuredevops_pat | string | `""` |  |
+| copy_files_hook.tolerations | list | `[]` |  |
+| scheduler.name | string | `"mzinga-scheduler"` |  |
+| scheduler.debug | bool | `true` |  |
+| common.enabled | bool | `true` |  |
+| common.name | string | `"mzinga-common"` |  |
+| backoffice.name | string | `"mzinga-bo"` |  |
+| backoffice.replicas | int | `1` |  |
+| backoffice.image.repository | string | `"mzinga/payload/backoffice"` |  |
+| backoffice.image.tag | string | `""` |  |
+| backoffice.image.registry | string | `"newesissrl.azurecr.io"` |  |
+| backoffice.publicURL | string | `""` |  |
+| backoffice.tolerations | list | `[]` |  |
+| backoffice.ingress.class | string | `"nginx"` | Name of the ingress class that will be used when creating backoffice ingress resource. |
+| backoffice.ingress.annotations."cert-manager.io/cluster-issuer" | string | `"letsencrypt-production"` |  |
+| backoffice.ingress.annotations."kubernetes.io/ingress.allow-http" | string | `"false"` |  |
+| backoffice.ingress.annotations."kubernetes.io/tls-acme" | string | `"true"` |  |
+| backoffice.ingress.annotations."nginx.ingress.kubernetes.io/proxy-body-size" | string | `"100m"` |  |
+| backoffice.affinity | object | `{}` | Affinities for MZinga backoffice service |
+| backoffice.resources.requests.memory | string | `"250Mi"` |  |
+| backoffice.resources.requests.cpu | float | `0.5` |  |
+| backoffice.resources.limits.memory | string | `"500Mi"` |  |
+| backoffice.resources.limits.cpu | int | `1` |  |
+| backoffice.customization.PAYLOAD_PUBLIC_CUSTOM_ICON_SRC | string | `"https://via.placeholder.com/32x32/008000"` |  |
+| backoffice.customization.PAYLOAD_PUBLIC_CUSTOM_LOGO_SRC | string | `"https://via.placeholder.com/180x180/FFFF00"` |  |
+| backoffice.customization.PAYLOAD_PUBLIC_DISABLED_ENTITIES_SLUGS | string | `"organizations,projects,environments,assets"` |  |
+| backoffice.customization.PAYLOAD_PUBLIC_DISABLE_LOCAL_STRATEGY | string | `"0"` |  |
+| backoffice.otel_log_level | string | `""` |  |
+| backoffice.otel_console_exporter | string | `"1"` |  |
+| api.name | string | `"mzinga-api"` |  |
+| api.replicas | int | `1` |  |
+| api.image.repository | string | `"mzinga/payload/api"` |  |
+| api.image.tag | string | `""` |  |
+| api.image.registry | string | `"newesissrl.azurecr.io"` |  |
+| api.publicURL | string | `""` |  |
+| api.api_key | string | `""` |  |
+| api.tolerations | list | `[]` |  |
+| api.ingress.class | string | `"nginx"` | Name of the ingress class that will be used when creating api ingress resource. |
+| api.ingress.annotations."cert-manager.io/cluster-issuer" | string | `"letsencrypt-production"` |  |
+| api.ingress.annotations."kubernetes.io/ingress.allow-http" | string | `"false"` |  |
+| api.ingress.annotations."kubernetes.io/tls-acme" | string | `"true"` |  |
+| api.ingress.annotations."nginx.ingress.kubernetes.io/proxy-body-size" | string | `"100m"` |  |
+| api.affinity | object | `{}` | Affinities for MZinga api service |
+| api.resources.requests.memory | string | `"250Mi"` |  |
+| api.resources.requests.cpu | float | `0.5` |  |
+| api.resources.limits.memory | string | `"500Mi"` |  |
+| api.resources.limits.cpu | int | `1` |  |
+| api.customization.PAYLOAD_PUBLIC_DISABLED_ENTITIES_SLUGS | string | `"organizations,projects,environments,assets"` |  |
+| api.otel_log_level | string | `""` |  |
+| api.otel_console_exporter | string | `"1"` |  |
 | ws.enabled | bool | `true` |  |
-| ws.image.registry | string | `"newesissrl.azurecr.io"` |  |
+| ws.name | string | `"mzinga-ws"` |  |
+| ws.replicas | int | `1` |  |
 | ws.image.repository | string | `"mzinga/payload/ws-service"` |  |
 | ws.image.tag | string | `""` |  |
+| ws.image.registry | string | `"newesissrl.azurecr.io"` |  |
+| ws.publicURL | string | `""` |  |
+| ws.tolerations | list | `[]` |  |
 | ws.ingress.annotations."cert-manager.io/cluster-issuer" | string | `"letsencrypt-production"` |  |
 | ws.ingress.annotations."kubernetes.io/ingress.allow-http" | string | `"false"` |  |
 | ws.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
@@ -207,23 +157,73 @@ Kubernetes: `>=1.25.0-0`
 | ws.ingress.annotations."nginx.ingress.kubernetes.io/proxy-body-size" | string | `"100m"` |  |
 | ws.ingress.annotations."nginx.ingress.kubernetes.io/proxy-read-timeout" | string | `"7200"` |  |
 | ws.ingress.annotations."nginx.ingress.kubernetes.io/proxy-send-timeout" | string | `"7200"` |  |
-| ws.name | string | `"mzinga-ws"` |  |
-| ws.otel_console_exporter | string | `"1"` |  |
-| ws.otel_log_level | string | `""` |  |
-| ws.publicURL | string | `""` |  |
-| ws.replicas | int | `1` |  |
-| ws.resources.limits.cpu | int | `1` |  |
-| ws.resources.limits.memory | string | `"500Mi"` |  |
-| ws.resources.requests.cpu | float | `0.5` |  |
+| ws.affinity | object | `{}` | Affinities for MZinga websocket service |
 | ws.resources.requests.memory | string | `"250Mi"` |  |
-| ws.tolerations | list | `[]` |  |
-| zitadel_database.backup_enabled | bool | `false` |  |
-| zitadel_database.configmap_scripts | string | `"zitadel-db-jobs-scripts"` |  |
-| zitadel_database.debug | bool | `true` |  |
+| ws.resources.requests.cpu | float | `0.5` |  |
+| ws.resources.limits.memory | string | `"500Mi"` |  |
+| ws.resources.limits.cpu | int | `1` |  |
+| ws.customization | object | `{}` |  |
+| ws.otel_log_level | string | `""` |  |
+| ws.otel_console_exporter | string | `"1"` |  |
+| sampleFrontend.enabled | bool | `true` |  |
+| sampleFrontend.name | string | `"mzinga-sample-fe"` |  |
+| sampleFrontend.replicas | int | `1` |  |
+| sampleFrontend.image.repository | string | `"mzinga/payload/sample-frontend"` |  |
+| sampleFrontend.image.tag | string | `""` |  |
+| sampleFrontend.image.registry | string | `"newesissrl.azurecr.io"` |  |
+| sampleFrontend.ingress.class | string | `"nginx"` | Name of the ingress class that will be used when creating frontend ingress resource. |
+| sampleFrontend.ingress.annotations."cert-manager.io/cluster-issuer" | string | `"letsencrypt-production"` |  |
+| sampleFrontend.ingress.annotations."kubernetes.io/ingress.allow-http" | string | `"false"` |  |
+| sampleFrontend.ingress.annotations."kubernetes.io/tls-acme" | string | `"true"` |  |
+| sampleFrontend.tolerations | list | `[]` |  |
+| sampleFrontend.affinity | object | `{}` | Affinities for MZinga frontend service |
+| sync.enabled | bool | `false` |  |
+| sync.name | string | `"mzinga-to-zitadel"` |  |
+| sync.replicas | int | `1` |  |
+| sync.env | string | `"prod"` |  |
+| sync.image.repository | string | `"mzinga-to-zitadel"` |  |
+| sync.image.tag | string | `""` |  |
+| sync.image.registry | string | `"newesissrl.azurecr.io"` |  |
+| sync.otel.disableTracing | string | `"0"` |  |
+| sync.otel.consoleExporter | string | `"1"` |  |
+| sync.otel.logLevel | string | `"debug"` |  |
+| sync.mzinga.apiKey | string | `""` |  |
+| sync.repository.baseUrl | string | `"https://dev.azure.com/newesis/Code%20Name%20MZinga"` |  |
+| sync.repository.instancesUrl | string | `"/_apis/git/repositories/infrastructure/items?download=false&api-version=7.1-preview.1&scopePath=/__instances__/mzinga-prod.tfvars.json"` |  |
+| sync.repository.commitsUrl | string | `"/_apis/git/repositories/infrastructure/commits?searchCriteria.%24top=1&searchCriteria.itemVersion.version=main&api-version=7.1-preview.1"` |  |
+| sync.repository.pushesUrl | string | `"/_apis/git/repositories/infrastructure/pushes?api-version=7.1-preview.2"` |  |
+| sync.repository.queueUrl | string | `"/_apis/pipelines/59/runs?api-version=7.1-preview.1"` |  |
+| sync.repository.pat | string | `""` |  |
+| sync.zitadel.bearerToken | string | `""` |  |
+| sync.nodePool.priority | string | `"Regular"` |  |
+| sync.nodePool.spot.tolerations[0].key | string | `"kubernetes.azure.com/scalesetpriority"` |  |
+| sync.nodePool.spot.tolerations[0].operator | string | `"Equal"` |  |
+| sync.nodePool.spot.tolerations[0].value | string | `"spot"` |  |
+| sync.nodePool.spot.tolerations[0].effect | string | `"NoSchedule"` |  |
+| sync.resources.requests.memory | string | `"250Mi"` |  |
+| sync.resources.requests.cpu | float | `0.5` |  |
+| sync.resources.limits.memory | string | `"500Mi"` |  |
+| sync.resources.limits.cpu | int | `1` |  |
+| sync.tolerations | list | `[]` |  |
+| sync.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[0].matchExpressions[0].key | string | `"mzinga.io/tenants"` |  |
+| sync.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[0].matchExpressions[0].operator | string | `"In"` |  |
+| sync.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[0].matchExpressions[0].values[0] | string | `"true"` |  |
 | zitadel_database.name | string | `"zitadel-db"` |  |
+| zitadel_database.backup_enabled | bool | `false` |  |
+| zitadel_database.secret | string | `"zitadel-database-jobs-secret"` |  |
+| zitadel_database.configmap_scripts | string | `"zitadel-db-jobs-scripts"` |  |
 | zitadel_database.psql_host | string | `"postgresql-hl.zitadel"` |  |
 | zitadel_database.psql_port | string | `"5432"` |  |
-| zitadel_database.psql_postgres_password | string | `"postgres"` |  |
 | zitadel_database.psql_postgres_user | string | `"postgres"` |  |
-| zitadel_database.secret | string | `"zitadel-database-jobs-secret"` |  |
+| zitadel_database.psql_postgres_password | string | `"postgres"` |  |
+| zitadel_database.debug | bool | `true` |  |
 | zitadel_database.tolerations | list | `[]` |  |
+| telemetry.tempo_service_name | string | `"tempo.monitoring"` |  |
+| telemetry.exporter_otlp_endpoint | string | `"http://opentelemetry-collector-mzinga.monitoring:4318"` |  |
+| tolerations | list | `[]` |  |
+| storageClasses | object | `{"aws":{},"azure":{},"google":{}}` | Storage classes to be created for MZinga deployment. |
+| storageClasses.azure | object | `{}` | Storage classes to use Azure file shares. Refer to this documentation: https://learn.microsoft.com/en-us/azure/aks/azure-csi-files-storage-provision |
+| storageClasses.aws | object | `{}` | Storage classes to use AWS Elastic File system. refer to this documentation: https://aws.amazon.com/blogs/containers/introducing-efs-csi-dynamic-provisioning/ |
+| storageClasses.google | object | `{}` | Storage classes to use Google Filestore. refer to this documentation: https://cloud.google.com/filestore/docs/csi-driver#storage-class |
+| persistence | object | `{"volumes":{"basic":{"capacity":"10Gi","mountOptions":["dir_mode=0777","file_mode=0777","uid=1000","gid=1000","mfsymlinks","nobrl"],"reclaimPolicy":"Retain"}}}` | Persistence section describe which volumes and claims will be created |
+| persistence.volumes | object | `{"basic":{"capacity":"10Gi","mountOptions":["dir_mode=0777","file_mode=0777","uid=1000","gid=1000","mfsymlinks","nobrl"],"reclaimPolicy":"Retain"}}` | Volumes specification |

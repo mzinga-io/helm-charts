@@ -15,3 +15,4 @@ repos:
       args:
         # Make the tool search for charts only under the `charts` directory
         - --chart-search-root=charts/mzinga
+        - --sort-values-order=file

@@ -125,7 +125,7 @@ backoffice:
       kubernetes.io/ingress.allow-http: 'false'
       kubernetes.io/tls-acme: 'true'
       nginx.ingress.kubernetes.io/proxy-body-size: "100m"
-  # -- Affinities for MZinga backoffice service
+  # -- Affinities for MZinga backoffice service
   affinity: {}
     # nodeAffinity:
     #   requiredDuringSchedulingIgnoredDuringExecution:

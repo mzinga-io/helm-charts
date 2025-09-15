@@ -1,0 +1,18 @@
+name: Helm
+permissions: {}
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+
+
+jobs:
+  test-helm:
+    name: "Test Helm chart installation."
+    runs-on: [self-hosted]
+    steps:
+      - name: Create Kind cluster
+        id: create-cluster
+        uses: helm/kind-action@v1

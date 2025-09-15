@@ -1,6 +1,19 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:recommended"
+  "extends": ["config:recommended"],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "datasourceTemplate": "github-tags",
+      "packageNameTemplate": "mzinga-io/mzinga-apps",
+      "managerFilePatterns": [
+        "^charts/mzinga/Chart\\.yaml$",
+        "^charts/mzinga/values\\.yaml$"
+      ],
+      "matchStrings": [
+        "#\\s*renovate: image=(?<depName>.*?)\\s+appVersion:\\s*[\"']?(?<currentValue>[\\w+\\.\\-]*)",
+        "#\\s*renovate: image=(?<depName>.*?)\\s+tag:\\s*[\"']?(?<currentValue>[\\w+\\.\\-]*)"
+      ]
+    }
   ]
 }

@@ -44,6 +44,6 @@ jobs:
         run: helm unittest -f "charts/mzinga/unittests/**/*_test.yaml" charts/mzinga
       - name: Create Kind cluster
         id: create-cluster
-        uses: helm/kind-action@v1
+        uses: helm/kind-action@v1.12.0
         with:
           config: ".github/workflows/chart-testing/kind-config.yaml"

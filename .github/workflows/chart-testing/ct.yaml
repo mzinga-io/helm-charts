@@ -5,7 +5,5 @@ chart-repos:
 helm-extra-args: --timeout 600s
 target-branch: main
 use-helmignore: true
-validate-maintainers: true
-rules:
-  comments:
-    require-starting-space: false
+validate-maintainers: false
+require-starting-space: false

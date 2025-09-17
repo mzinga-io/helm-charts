@@ -325,7 +325,7 @@ tolerations: []
 storageClasses:
   # -- Storage classes to use Azure file shares. Refer to this documentation: https://learn.microsoft.com/en-us/azure/aks/azure-csi-files-storage-provision
   azure: {}
-    # -- Fill in this section with you Azure storage account name and access key.
+    # -- Fill in this section with you Azure storage account name and access key.
     # storageAccount:
     #   name: ""
     #   key: ""

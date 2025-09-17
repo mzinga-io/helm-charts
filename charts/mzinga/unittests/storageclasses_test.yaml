@@ -1,0 +1,21 @@
+suite: test storage classes
+templates:
+  - templates/storageclasses/*.yaml
+release:
+  name: mzinga
+  namespace: mzinga
+tests:
+  - it: should create Google storage class
+    values:
+      - ./values/google.yaml
+    templates:
+      - templates/storageclasses/google.yaml
+    asserts:
+      - equal:
+          path: metadata.name
+          value: "mzinga-enterprisemultisharerwx"
+      - equal:
+          path: provisioner
+          value: "filestore.csi.storage.gke.io"
+      - hasDocuments:
+          count: 1

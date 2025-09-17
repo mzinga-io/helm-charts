@@ -1,0 +1,15 @@
+storageClasses:
+  google:
+    enterpriseMultishareRWX:
+      provisioner: filestore.csi.storage.gke.io
+      parameters:
+        tier: "enterprise"
+        multishare: "true"
+        instanceStorageclassLabel: "enterprise-multishare-rwx"
+        maxVolumeSize: "256Gi"
+      additionalParameters:
+        network: "default"
+      mountOptions: []
+      reclaimPolicy: Delete
+      allowVolumeExpansion: true
+      volumeBindingMode: WaitForFirstConsumer

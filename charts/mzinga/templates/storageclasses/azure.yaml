@@ -1,5 +1,5 @@
-{{ $releaseName := .Release.Name }}
-{{ range $k, $v := .Values.storageClasses.azure.tier }}
+{{- $releaseName := .Release.Name }}
+{{- range $k, $v := .Values.storageClasses.azure.tier }}
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:

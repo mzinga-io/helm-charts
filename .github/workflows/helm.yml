@@ -12,7 +12,39 @@ jobs:
   test-helm:
     name: "Test Helm chart installation."
     runs-on: [self-hosted]
+    permissions:
+      contents: read
     steps:
+      - name: Checkout Code
+        uses: actions/checkout@v5.0.0
+        with:
+          fetch-depth: 0
+      - uses: azure/setup-helm@v4.3.0
+        id: install-helm
+      - name: Set up chart-testing
+        uses: helm/chart-testing-action@v2.7.0
+      - name: Run chart-testing (list-changed)
+        id: list-changed
+        run: |
+          changed="$(ct list-changed --config .github/workflows/chart-testing/ct.yaml)"
+          if [[ -n "$changed" ]]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            echo "changed_list=\"${changed//$'\n'/ }\"" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: install helm unittest plugin
+        if: steps.list-changed.outputs.changed == 'true'
+        run: helm plugin install https://github.com/helm-unittest/helm-unittest.git --version 1.0.1
+
+      - name: Run chart-testing (lint)
+        run: ct lint --config .github/workflows/chart-testing/ct.yaml
+
+      - name: Run Helm unit tests
+        id: helm-unit-tests
+        run: helm unittest -f "charts/mzinga/unittests/**/*_test.yaml" charts/mzinga
       - name: Create Kind cluster
         id: create-cluster
-        uses: helm/kind-action@v1
+        uses: helm/kind-action@v1.12.0
+        with:
+          version: v0.30.0
+          # config: ".github/workflows/chart-testing/kind-config.yaml"

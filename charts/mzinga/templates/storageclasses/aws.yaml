@@ -1,6 +1,6 @@
-{{ $releaseName := .Release.Name }}
-{{ range $k, $v := .Values.storageClasses.aws }}
-{{ $storageClassSuffix := lower $k }}
+{{- $releaseName := .Release.Name }}
+{{- range $k, $v := .Values.storageClasses.aws }}
+{{- $storageClassSuffix := lower $k }}
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:

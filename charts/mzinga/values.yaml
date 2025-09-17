@@ -112,7 +112,7 @@ backoffice:
   image:
     repository: mzinga/payload/backoffice
     # renovate: image=mzinga-io/mzinga-apps
-    tag: ""
+    tag: "1.9.18"
     registry: newesissrl.azurecr.io
   publicURL: ""
   tolerations: []
@@ -154,7 +154,7 @@ api:
   image:
     repository: mzinga/payload/api
     # renovate: image=mzinga-io/mzinga-apps
-    tag: ""
+    tag: "1.9.18"
     registry: newesissrl.azurecr.io
   publicURL: ""
   api_key: ""
@@ -189,7 +189,8 @@ api:
   otel_log_level: ""
   otel_console_exporter: "1"
 ws:
-  enabled: true
+  # -- Enable WebSocket deployment
+  enabled: false
   name: mzinga-ws
   replicas: 1
   image:
@@ -228,7 +229,8 @@ ws:
   otel_log_level: ""
   otel_console_exporter: "1"
 sampleFrontend:
-  enabled: true
+  # -- Enable sample frontend for MZinga
+  enabled: false
   name: mzinga-sample-fe
   replicas: 1
   image:
@@ -323,7 +325,7 @@ tolerations: []
 storageClasses:
   # -- Storage classes to use Azure file shares. Refer to this documentation: https://learn.microsoft.com/en-us/azure/aks/azure-csi-files-storage-provision
   azure: {}
-    # -- Fill in this section with you Azure storage account name and access key.
+    # -- Fill in this section with you Azure storage account name and access key.
     # storageAccount:
     #   name: ""
     #   key: ""

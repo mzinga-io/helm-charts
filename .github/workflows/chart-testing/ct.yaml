@@ -1,0 +1,9 @@
+chart-dirs:
+  - charts
+chart-repos:
+  - bitnami=https://charts.bitnami.com/bitnami
+helm-extra-args: --timeout 600s
+target-branch: main
+use-helmignore: true
+validate-maintainers: false
+require-starting-space: false

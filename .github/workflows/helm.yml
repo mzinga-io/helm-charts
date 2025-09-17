@@ -12,6 +12,8 @@ jobs:
   test-helm:
     name: "Test Helm chart installation."
     runs-on: [self-hosted]
+    permissions:
+      contents: read
     steps:
       - name: Checkout Code
         uses: actions/checkout@v5.0.0

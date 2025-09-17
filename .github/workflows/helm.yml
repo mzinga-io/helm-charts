@@ -17,8 +17,8 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v5.0.0
-        # with:
-        #   fetch-depth: 0
+        with:
+          fetch-depth: 0
       - uses: azure/setup-helm@v4.3.0
         id: install-helm
       - name: Set up chart-testing

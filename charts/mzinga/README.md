@@ -23,7 +23,7 @@ Kubernetes: `>=1.25.0-0`
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://charts.bitnami.com/bitnami | common | 2.31.3 |
+| https://charts.bitnami.com/bitnami | common | 2.31.4 |
 
 ## Values
 
@@ -101,7 +101,7 @@ Kubernetes: `>=1.25.0-0`
 | backoffice.name | string | `"mzinga-bo"` |  |
 | backoffice.replicas | int | `1` |  |
 | backoffice.image.repository | string | `"mzinga/payload/backoffice"` |  |
-| backoffice.image.tag | string | `""` |  |
+| backoffice.image.tag | string | `"1.9.18"` |  |
 | backoffice.image.registry | string | `"newesissrl.azurecr.io"` |  |
 | backoffice.publicURL | string | `""` |  |
 | backoffice.tolerations | list | `[]` |  |
@@ -124,7 +124,7 @@ Kubernetes: `>=1.25.0-0`
 | api.name | string | `"mzinga-api"` |  |
 | api.replicas | int | `1` |  |
 | api.image.repository | string | `"mzinga/payload/api"` |  |
-| api.image.tag | string | `""` |  |
+| api.image.tag | string | `"1.9.18"` |  |
 | api.image.registry | string | `"newesissrl.azurecr.io"` |  |
 | api.publicURL | string | `""` |  |
 | api.api_key | string | `""` |  |
@@ -142,7 +142,7 @@ Kubernetes: `>=1.25.0-0`
 | api.customization.PAYLOAD_PUBLIC_DISABLED_ENTITIES_SLUGS | string | `"organizations,projects,environments,assets"` |  |
 | api.otel_log_level | string | `""` |  |
 | api.otel_console_exporter | string | `"1"` |  |
-| ws.enabled | bool | `true` |  |
+| ws.enabled | bool | `false` | Enable WebSocket deployment |
 | ws.name | string | `"mzinga-ws"` |  |
 | ws.replicas | int | `1` |  |
 | ws.image.repository | string | `"mzinga/payload/ws-service"` |  |
@@ -165,7 +165,7 @@ Kubernetes: `>=1.25.0-0`
 | ws.customization | object | `{}` |  |
 | ws.otel_log_level | string | `""` |  |
 | ws.otel_console_exporter | string | `"1"` |  |
-| sampleFrontend.enabled | bool | `true` |  |
+| sampleFrontend.enabled | bool | `false` | Enable sample frontend for MZinga |
 | sampleFrontend.name | string | `"mzinga-sample-fe"` |  |
 | sampleFrontend.replicas | int | `1` |  |
 | sampleFrontend.image.repository | string | `"mzinga/payload/sample-frontend"` |  |

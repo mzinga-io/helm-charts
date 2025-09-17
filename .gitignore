@@ -6,3 +6,6 @@
 
 # Temporary folders
 infrastructure/**/*/
+
+# Helm unit tests auto-generated folders
+.debug

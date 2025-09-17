@@ -38,6 +38,12 @@ jobs:
 
       - name: Run chart-testing (lint)
         run: ct lint --config .github/workflows/chart-testing/ct.yaml
+
+      - name: Run Helm unit tests
+        id: helm-unit-tests
+        run: helm unittest -f "charts/mzinga/unittests/**/*_test.yaml" charts/mzinga
       - name: Create Kind cluster
         id: create-cluster
         uses: helm/kind-action@v1
+        with:
+          config: ".github/workflows/chart-testing/kind-config.yaml"

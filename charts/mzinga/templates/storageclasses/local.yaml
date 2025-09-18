@@ -1,4 +1,4 @@
-{{- if eq (len .Values.storageClasses) 0 }}
+{{- if not (or .Values.storageClasses.azure .Values.storageClasses.aws .Values.storageClasses.google) }}
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:

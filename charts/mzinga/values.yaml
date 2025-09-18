@@ -384,24 +384,24 @@ storageClasses:
     #   volumeBindingMode: WaitForFirstConsumer
   # -- Storage classes to use Google Filestore. refer to this documentation: https://cloud.google.com/filestore/docs/csi-driver#storage-class
   google: {}
-  #   enterpriseMultishareRWX:
-  #     provisioner: filestore.csi.storage.gke.io
-  #     parameters:
-  #       tier: "enterprise"
-  #       multishare: "true"
-  #       instanceStorageclassLabel: "enterprise-multishare-rwx"
-  #       ## Refer to this documentation to better understand: https://cloud.google.com/filestore/docs/optimize-multishares#create_a_custom_storageclass
-  #       ##
-  #       maxVolumeSize: "256Gi"
-  #     ## You may need this if you want to specify parameters
-  #     ## for advanced configuration (i.e.: network, etc.).
-  #     ## Refer to this: http://cloud.google.com/kubernetes-engine/docs/how-to/persistent-volumes/filestore-csi-driver#storage-class
-  #     additionalParameters:
-  #       network: "default"
-  #     mountOptions: []
-  #     reclaimPolicy: Delete
-  #     allowVolumeExpansion: true
-  #     volumeBindingMode: WaitForFirstConsumer
+    # enterpriseMultishareRWX:
+    #   provisioner: filestore.csi.storage.gke.io
+    #   parameters:
+    #     tier: "enterprise"
+    #     multishare: "true"
+    #     instanceStorageclassLabel: "enterprise-multishare-rwx"
+    #     ## Refer to this documentation to better understand: https://cloud.google.com/filestore/docs/optimize-multishares#create_a_custom_storageclass
+    #     ##
+    #     maxVolumeSize: "256Gi"
+    #   ## You may need this if you want to specify parameters
+    #   ## for advanced configuration (i.e.: network, etc.).
+    #   ## Refer to this: http://cloud.google.com/kubernetes-engine/docs/how-to/persistent-volumes/filestore-csi-driver#storage-class
+    #   additionalParameters:
+    #     network: "default"
+    #   mountOptions: []
+    #   reclaimPolicy: Delete
+    #   allowVolumeExpansion: true
+    #   volumeBindingMode: WaitForFirstConsumer
 
 # -- Persistence section describe which volumes and claims will be created
 persistence:

@@ -20,7 +20,7 @@ jobs:
     runs-on: [self-hosted]
     if: ${{ github.event_name != 'push' }}
     permissions:
-      contents: read
+      contents: write
     steps:
       - name: Checkout Code
         uses: actions/checkout@v5.0.0
@@ -72,10 +72,10 @@ jobs:
 
       - name: Push updated Chart
         run: |
-          CHART_VERSION=${{ github.ref }}
+          CURRENT_BRANCH=${{ github.ref }}
           git add charts/mzinga/Chart.yaml
           git commit --no-verify -m "[skip ci] chore(deps): update Chart.yaml version to ${{ steps.gitversion.outputs.MajorMinorPatch }}."
-          git push --set-upstream origin ${CHART_VERSION#refs/}
+          git push --set-upstream origin ${CURRENT_BRANCH#refs/}
   tag:
     name: Push Git Tag
     needs: [helm]

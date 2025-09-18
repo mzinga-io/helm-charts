@@ -6,14 +6,21 @@ on:
   pull_request:
     branches:
       - main
+  push:
+    branches:
+      - main
+    paths:
+      - charts/mzinga/**
 
 
 jobs:
-  test-helm:
-    name: "Test Helm chart installation."
+
+  helm:
+    name: "Lint, test and update version of Helm chart."
     runs-on: [self-hosted]
+    if: ${{ github.event_name != 'push' }}
     permissions:
-      contents: read
+      contents: write
     steps:
       - name: Checkout Code
         uses: actions/checkout@v5.0.0
@@ -29,9 +36,24 @@ jobs:
           changed="$(ct list-changed --config .github/workflows/chart-testing/ct.yaml)"
           if [[ -n "$changed" ]]; then
             echo "changed=true" >> "$GITHUB_OUTPUT"
-            echo "changed_list=\"${changed//$'\n'/ }\"" >> "$GITHUB_OUTPUT"
           fi
+      - name: Setup .NET
+        id: setup-dotnet
+        uses: actions/setup-dotnet@v4
+        if: steps.list-changed.outputs.changed == 'true'
+        with:
+          dotnet-version: '8.0.x'
 
+      - uses: gittools/actions/gitversion/setup@v1
+        id: install-gitversion
+        if: steps.list-changed.outputs.changed == 'true'
+        with:
+          versionSpec: '5.x'
+      - id: gitversion
+        uses: gittools/actions/gitversion/execute@v1
+        if: steps.list-changed.outputs.changed == 'true'
+      - if: steps.list-changed.outputs.changed == 'true'
+        run: yq e -i '.version = "${{ steps.gitversion.outputs.MajorMinorPatch }}"' charts/mzinga/Chart.yaml
       - name: install helm unittest plugin
         if: steps.list-changed.outputs.changed == 'true'
         run: helm plugin install https://github.com/helm-unittest/helm-unittest.git --version 1.0.1
@@ -41,10 +63,58 @@ jobs:
 
       - name: Run Helm unit tests
         id: helm-unit-tests
+        if: steps.list-changed.outputs.changed == 'true'
         run: helm unittest -f "charts/mzinga/unittests/**/*_test.yaml" charts/mzinga
-      - name: Create Kind cluster
-        id: create-cluster
-        uses: helm/kind-action@v1.12.0
+  tag:
+    name: Push Git Tag
+    runs-on: [self-hosted]
+    if: ${{ github.event_name != 'pull_request' && github.actor != 'actions-user'}}
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
         with:
-          version: v0.30.0
-          # config: ".github/workflows/chart-testing/kind-config.yaml"
+          fetch-depth: 0
+          fetch-tags: true
+      - name: Setup .NET
+        id: setup-dotnet
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - uses: gittools/actions/gitversion/setup@v1
+        id: install-gitversion
+        with:
+          versionSpec: '5.x'
+      - id: gitversion
+        uses: gittools/actions/gitversion/execute@v1
+
+      - name: Set up Git user
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+
+      - name: Push Git tag
+        run: |
+          VERSION=mzinga-${{ steps.gitversion.outputs.MajorMinorPatch }}
+          git tag $VERSION
+          git push origin $VERSION
+
+      - run: yq e -i '.version = "${{ steps.gitversion.outputs.MajorMinorPatch }}"' charts/mzinga/Chart.yaml
+      - name: Push updated Chart
+        run: |
+          CURRENT_BRANCH=${{ github.ref }}
+          git add charts/mzinga/Chart.yaml
+          git commit --no-verify -m "chore(deps): update Chart.yaml version to ${{ steps.gitversion.outputs.MajorMinorPatch }}."
+          git push --set-upstream origin ${CURRENT_BRANCH#refs/}
+
+      - name: Update Helm chart docs
+        id: update-docs
+        uses: losisin/helm-docs-github-action@v1.6.2
+        with:
+          chart-search-root: "charts/mzinga"
+          sort-values-order: "file"
+          git-push-user-name: "GitHub Actions"
+          git-push-user-email: "actions@github.com"
+          git-commit-message: "chore(helm): update mzinga documentation."
+          git-push: true

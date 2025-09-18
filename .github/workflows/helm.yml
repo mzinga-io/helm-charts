@@ -74,6 +74,7 @@ jobs:
         run: |
           git add charts/mzinga/Chart.yaml
           git commit --no-verify -m "[skip ci] chore(deps): update Chart.yaml version to ${{ steps.gitversion.outputs.MajorMinorPatch }}."
+          git push
   tag:
     name: Push Git Tag
     needs: [helm]

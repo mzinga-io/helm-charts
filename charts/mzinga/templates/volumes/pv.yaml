@@ -1,10 +1,10 @@
-{{- if eq (len .Values.storageClasses) 0 }}
+{{- if not (or .Values.storageClasses.azure .Values.storageClasses.aws .Values.storageClasses.google) }}
 apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: {{ printf "%s-%s-%s" .Values.tenant.name "pv" .Values.tenant.tier }}
 spec:
-  storageClassName: local
+  storageClassName: "local"
   capacity:
     storage: 10Gi
   accessModes:

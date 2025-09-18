@@ -67,7 +67,6 @@ jobs:
         run: helm unittest -f "charts/mzinga/unittests/**/*_test.yaml" charts/mzinga
   tag:
     name: Push Git Tag
-    needs: [helm]
     runs-on: [self-hosted]
     if: ${{ github.event_name != 'pull_request' }}
     permissions:

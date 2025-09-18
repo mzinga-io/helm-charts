@@ -68,7 +68,7 @@ jobs:
   tag:
     name: Push Git Tag
     runs-on: [self-hosted]
-    if: ${{ github.event_name != 'pull_request' }}
+    if: ${{ github.event_name != 'pull_request' && github.actor != 'actions-user'}}
     permissions:
       contents: write
     steps:
@@ -105,7 +105,7 @@ jobs:
         run: |
           CURRENT_BRANCH=${{ github.ref }}
           git add charts/mzinga/Chart.yaml
-          git commit --no-verify -m "[skip ci] chore(deps): update Chart.yaml version to ${{ steps.gitversion.outputs.MajorMinorPatch }}."
+          git commit --no-verify -m "chore(deps): update Chart.yaml version to ${{ steps.gitversion.outputs.MajorMinorPatch }}."
           git push --set-upstream origin ${CURRENT_BRANCH#refs/}
 
       - name: Update Helm chart docs

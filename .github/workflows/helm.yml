@@ -69,7 +69,7 @@ jobs:
     name: Push Git Tag
     needs: [helm]
     runs-on: [self-hosted]
-    if: ${{ needs.helm.result == 'success' && github.event_name != 'pull_request' }}
+    if: ${{ github.event_name != 'pull_request' }}
     permissions:
       contents: write
     steps:
@@ -77,6 +77,18 @@ jobs:
         with:
           fetch-depth: 0
           fetch-tags: true
+      - name: Setup .NET
+        id: setup-dotnet
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - uses: gittools/actions/gitversion/setup@v1
+        id: install-gitversion
+        with:
+          versionSpec: '5.x'
+      - id: gitversion
+        uses: gittools/actions/gitversion/execute@v1
 
       - name: Set up Git user
         run: |
@@ -85,11 +97,11 @@ jobs:
 
       - name: Push Git tag
         run: |
-          VERSION=mzinga-${{ needs.gitversion.outputs.MajorMinorPatch }}
+          VERSION=mzinga-${{ steps.gitversion.outputs.MajorMinorPatch }}
           git tag $VERSION
           git push origin $VERSION
 
-      - run: yq e -i '.version = "${{ needs.gitversion.outputs.MajorMinorPatch }}"' charts/mzinga/Chart.yaml
+      - run: yq e -i '.version = "${{ steps.gitversion.outputs.MajorMinorPatch }}"' charts/mzinga/Chart.yaml
       - name: Push updated Chart
         run: |
           CURRENT_BRANCH=${{ github.ref }}

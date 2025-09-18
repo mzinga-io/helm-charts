@@ -154,7 +154,7 @@ api:
   image:
     repository: mzinga/payload/api
     # renovate: image=mzinga-io/mzinga-apps
-    tag: "1.9.18"
+    tag: "1.9.21"
     registry: newesissrl.azurecr.io
   publicURL: ""
   api_key: ""

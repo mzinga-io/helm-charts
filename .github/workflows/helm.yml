@@ -113,18 +113,18 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      
+
       - name: Configure Git
         run: |
           git config user.name "$GITHUB_ACTOR"
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
 
-      - run: yq e -i '.version = "${{ steps.gitversion.outputs.MajorMinorPatch }}"' charts/mzinga/Chart.yaml
+      - run: yq e -i '.version = "${{ needs.tag.outputs.MajorMinorPatch }}"' charts/mzinga/Chart.yaml
       - name: Push updated Chart
         run: |
           CURRENT_BRANCH=${{ github.ref }}
           git add charts/mzinga/Chart.yaml
-          git commit --no-verify -m "chore(deps): update Chart.yaml version to ${{ steps.gitversion.outputs.MajorMinorPatch }}."
+          git commit --no-verify -m "chore(deps): update Chart.yaml version to ${{ needs.tag.outputs.MajorMinorPatch }}."
           git push --set-upstream origin ${CURRENT_BRANCH#refs/}
 
       - name: Update Helm chart docs

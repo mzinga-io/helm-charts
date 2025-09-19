@@ -26,7 +26,21 @@ Once Helm is set up properly, add the repo as follows:
 helm repo add mzingaio https://mzinga-io.github.io/helm-charts
 ```
 
-You can then run `helm search repo mzingaio` to see the charts.
+If you had already added this repo earlier, run `helm repo update` to retrieve
+the latest versions of the packages.  You can then run `helm search repo
+mzingaio` to see the charts.
+
+To install the mzinga chart:
+
+  ```console
+    helm install mzinga mzingaio/mzinga
+  ```
+
+To uninstall the chart:
+
+  ```console
+    helm uninstall mzinga
+  ```
 
 <!-- Keep full URL links to repo files because this README syncs from main to gh-pages.  -->
 Chart documentation is available in [mzinga directory](https://github.com/mzinga-io/helm-charts/blob/main/charts/mzinga/README.md).

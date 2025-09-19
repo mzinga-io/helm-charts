@@ -1,5 +1,5 @@
 apiVersion: v2
-description: A Helm chart for Kubernetes to deploy an m'zinga instance.
+description: A Helm chart for Kubernetes to deploy an MZinga instance.
 icon: https://www.newesis.com/wp-content/uploads/2019/05/cropped-newesis.png
 type: application
 maintainers:

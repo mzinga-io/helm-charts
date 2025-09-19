@@ -1,6 +1,6 @@
 # mzinga
 
-![Version: 0.5.21](https://img.shields.io/badge/Version-0.5.21-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.7.1](https://img.shields.io/badge/AppVersion-1.7.1-informational?style=flat-square)
+![Version: ](https://img.shields.io/badge/Version--informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.7.1](https://img.shields.io/badge/AppVersion-1.7.1-informational?style=flat-square)
 
 A Helm chart for Kubernetes to deploy an MZinga instance.
 
@@ -10,7 +10,7 @@ A Helm chart for Kubernetes to deploy an MZinga instance.
 
 | Name | Email | Url |
 | ---- | ------ | --- |
-| newesis team | <newesis.support@newesis.com> | <https://www.newesis.com/#:~:text=as%2Da%2Dservice-,Our%20People> |
+| Newesis Team | <newesis.support@newesis.com> | <https://www.newesis.com/#:~:text=as%2Da%2Dservice-,Our%20People> |
 
 ## Source Code
 

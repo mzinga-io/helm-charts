@@ -28,7 +28,7 @@ Project maintainers are responsible for clarifying and enforcing standards of ac
 
 ## Enforcement
 
-Instances of abusive, harassing, or otherwise unacceptable behavior may be reported by contacting the MZinga project team at [contact@XXX.com](mailto:contact@XXX.com). All complaints will be reviewed and investigated promptly and fairly.
+Instances of abusive, harassing, or otherwise unacceptable behavior may be reported by contacting the MZinga project team at [contact@mzinga.io](mailto:contact@mzinga.io). All complaints will be reviewed and investigated promptly and fairly.
 
 All project maintainers are obligated to respect the privacy and security of the reporter of any incident.
 

@@ -151,6 +151,7 @@ backoffice:
 api:
   name: mzinga-api
   replicas: 1
+  # -- Image specification for MZinga api.
   image:
     repository: mzinga/payload/api
     # renovate: image=mzinga-io/mzinga-apps

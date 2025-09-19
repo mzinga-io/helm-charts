@@ -101,7 +101,7 @@ Kubernetes: `>=1.25.0-0`
 | backoffice.name | string | `"mzinga-bo"` |  |
 | backoffice.replicas | int | `1` |  |
 | backoffice.image.repository | string | `"mzinga/payload/backoffice"` |  |
-| backoffice.image.tag | string | `"1.9.18"` |  |
+| backoffice.image.tag | string | `"1.9.21"` |  |
 | backoffice.image.registry | string | `"newesissrl.azurecr.io"` |  |
 | backoffice.publicURL | string | `""` |  |
 | backoffice.tolerations | list | `[]` |  |
@@ -123,9 +123,7 @@ Kubernetes: `>=1.25.0-0`
 | backoffice.otel_console_exporter | string | `"1"` |  |
 | api.name | string | `"mzinga-api"` |  |
 | api.replicas | int | `1` |  |
-| api.image.repository | string | `"mzinga/payload/api"` |  |
-| api.image.tag | string | `"1.9.18"` |  |
-| api.image.registry | string | `"newesissrl.azurecr.io"` |  |
+| api.image | object | `{"registry":"newesissrl.azurecr.io","repository":"mzinga/payload/api","tag":"1.9.21"}` | Image specification for MZinga api. |
 | api.publicURL | string | `""` |  |
 | api.api_key | string | `""` |  |
 | api.tolerations | list | `[]` |  |

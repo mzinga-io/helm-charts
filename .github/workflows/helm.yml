@@ -39,7 +39,7 @@ jobs:
           fi
       - name: Setup .NET
         id: setup-dotnet
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         if: steps.list-changed.outputs.changed == 'true'
         with:
           dotnet-version: '8.0.x'
@@ -78,7 +78,7 @@ jobs:
           fetch-tags: true
       - name: Setup .NET
         id: setup-dotnet
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: '8.0.x'
 

@@ -100,6 +100,25 @@ jobs:
           git tag $VERSION
           git push origin $VERSION
 
+  release:
+    name: "Generate release for Helm chart."
+    needs:
+      - tag
+    permissions:
+      contents: write
+    runs-on: [self-hosted]
+    if: ${{ github.event_name != 'pull_request' && needs.tag.result == 'success'}}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Configure Git
+        run: |
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+
       - run: yq e -i '.version = "${{ steps.gitversion.outputs.MajorMinorPatch }}"' charts/mzinga/Chart.yaml
       - name: Push updated Chart
         run: |
@@ -116,26 +135,8 @@ jobs:
           sort-values-order: "file"
           git-push-user-name: "GitHub Actions"
           git-push-user-email: "actions@github.com"
-          git-commit-message: "chore(helm): update mzinga documentation."
+          git-commit-message: "docs(mzinga): update mzinga helm chart documentation."
           git-push: true
-
-  release:
-    needs:
-      - tag
-    permissions:
-      contents: write
-    runs-on: [self-hosted]
-    if: ${{ github.event_name != 'pull_request' && needs.tag.result == 'success'}}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Configure Git
-        run: |
-          git config user.name "$GITHUB_ACTOR"
-          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
 
       - name: Install Helm
         uses: azure/setup-helm@v4.3.1
@@ -149,3 +150,4 @@ jobs:
         uses: helm/chart-releaser-action@v1.7.0
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          CR_GENERATE_RELEASE_NOTES: true

@@ -1,8 +1,0 @@
-storage:
-  type: azure
-  azure:
-    account: $AZURE_STORAGE_ACCOUNT
-    container: $AZURE_STORAGE_CONTAINER
-    prefix: $AZURE_STORAGE_PREFIX
-    credentials:
-      key: $AZURE_STORAGE_CREDENTIALS_KEY

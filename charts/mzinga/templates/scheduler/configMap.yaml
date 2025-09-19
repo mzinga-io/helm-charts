@@ -1,9 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: {{ .Values.cron_jobs.scheduler }}-script
-  labels:
-    helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-data:
-  scheduler.sh: |-
-{{ .Files.Get "scripts/scheduler.sh" | indent 4 }}

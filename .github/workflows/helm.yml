@@ -118,3 +118,26 @@ jobs:
           git-push-user-email: "actions@github.com"
           git-commit-message: "chore(helm): update mzinga documentation."
           git-push: true
+
+  release:
+    needs:
+      - tag
+    permissions:
+      contents: write
+    runs-on: [self-hosted]
+    if: ${{ github.event_name != 'pull_request' && needs.tag.result == 'success'}}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+
+      - name: Run chart-releaser
+        uses: helm/chart-releaser-action@v1.7.0
+        env:
+          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"

@@ -110,7 +110,7 @@ backoffice:
   name: mzinga-bo
   replicas: 1
   image:
-    repository: mzinga/payload/backoffice
+    repository: mzinga/payload/gh/backoffice
     # renovate: image=mzinga-io/mzinga-apps
     tag: "1.9.21"
     registry: newesissrl.azurecr.io
@@ -153,7 +153,7 @@ api:
   replicas: 1
   # -- Image specification for MZinga api.
   image:
-    repository: mzinga/payload/api
+    repository: mzinga/payload/gh/api
     # renovate: image=mzinga-io/mzinga-apps
     tag: "1.9.21"
     registry: newesissrl.azurecr.io

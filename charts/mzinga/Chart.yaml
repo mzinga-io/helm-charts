@@ -12,7 +12,7 @@ sources:
   - https://github.com/mzinga-io/mzinga-apps
 version: "0.5.40"
 # renovate: image=mzinga-io/mzinga-apps
-appVersion: "1.7.1"
+appVersion: "0.3.1"
 kubeVersion: ">=1.25.0-0"
 home: https://github.com/mzinga-io/mzinga-apps
 keywords:

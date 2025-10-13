@@ -118,8 +118,8 @@ jobs:
 
       - name: Configure Git
         run: |
-          git config user.name "$GITHUB_ACTOR"
-          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+          git config user.name "renovate[bot]"
+          git config user.email "29139614+renovate[bot]@users.noreply.github.com"
 
       - run: yq e -i '.version = "${{ needs.tag.outputs.version }}"' charts/mzinga/Chart.yaml
       - name: Push updated Chart
@@ -135,8 +135,8 @@ jobs:
         with:
           chart-search-root: "charts/mzinga"
           sort-values-order: "file"
-          git-push-user-name: "GitHub Actions"
-          git-push-user-email: "actions@github.com"
+          git-push-user-name: "renovate[bot]"
+          git-push-user-email: "29139614+renovate[bot]@users.noreply.github.com"
           git-commit-message: "docs(mzinga): update mzinga helm chart documentation."
           git-push: true
 

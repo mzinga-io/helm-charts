@@ -10,7 +10,7 @@ A Helm chart for Kubernetes to deploy an MZinga instance.
 
 | Name | Email | Url |
 | ---- | ------ | --- |
-| Newesis Team | <newesis.support@newesis.com> | <https://www.newesis.com/#:~:text=as%2Da%2Dservice-,Our%20People> |
+| Newesis Team | <contact@newesis.com> | <https://www.newesis.com/#:~:text=as%2Da%2Dservice-,Our%20People> |
 
 ## Source Code
 

@@ -38,8 +38,8 @@ We welcome many different types of contributions including:
 * Communications / Social Media / Blog Posts
 * Release management
 
-Not everything happens through a GitHub pull request. Please [contact us](contact@newesis.com) and let's discuss how we can work
-together. 
+Not everything happens through a GitHub pull request. Please [contact us](mailto:contact@mzinga.io) and let's discuss how we can work
+together.
 
 
 ## Find an Issue
@@ -54,7 +54,7 @@ your first pull request.
 
 Sometimes there won’t be any issues with these labels. That’s ok! There is
 likely still something for you to work on. If you want to contribute but you
-don’t know where to start or can't find a suitable issue, you can [contact us](contact@newesis.com).
+don’t know where to start or can't find a suitable issue, you can [contact us](mailto:contact@mzinga.io).
 
 Once you see an issue that you'd like to work on, please post a comment saying
 that you want to work on it. Something like "I want to work on this" is fine.
@@ -66,7 +66,7 @@ that you want to work on it. Something like "I want to work on this" is fine.
 The best way to reach us with a question when contributing is to ask on:
 
 * The original github issue
-* you can [contact us](contact@newesis.com)
+* you can [contact us](mailto:contact@mzinga.io)
 
 ## Pull Request Lifecycle
 
@@ -97,10 +97,10 @@ Git has a `-s` command line option to do this automatically:
     git commit -s -m 'This is my commit message'
 
 If you forgot to do this and have not yet pushed your changes to the remote
-repository, you can amend your commit with the sign-off by running 
+repository, you can amend your commit with the sign-off by running
 
-    git commit --amend -s 
- 
+    git commit --amend -s
+
 
 ## Pull Request Checklist
 

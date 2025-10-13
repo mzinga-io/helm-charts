@@ -6,6 +6,7 @@
             "type": "object",
             "properties": {
                 "affinity": {
+                    "description": "Affinities for MZinga api service",
                     "type": "object"
                 },
                 "api_key": {
@@ -20,6 +21,7 @@
                     }
                 },
                 "image": {
+                    "description": "Image specification for MZinga api.",
                     "type": "object",
                     "properties": {
                         "registry": {
@@ -54,6 +56,7 @@
                             }
                         },
                         "class": {
+                            "description": "Name of the ingress class that will be used when creating api ingress resource.",
                             "type": "string"
                         }
                     }
@@ -109,6 +112,7 @@
             "type": "object",
             "properties": {
                 "affinity": {
+                    "description": "Affinities for MZinga backoffice service",
                     "type": "object"
                 },
                 "customization": {
@@ -163,6 +167,7 @@
                             }
                         },
                         "class": {
+                            "description": "Name of the ingress class that will be used when creating backoffice ingress resource.",
                             "type": "string"
                         }
                     }
@@ -393,9 +398,11 @@
             }
         },
         "persistence": {
+            "description": "Persistence section describe which volumes and claims will be created",
             "type": "object",
             "properties": {
                 "volumes": {
+                    "description": "Volumes specification",
                     "type": "object",
                     "properties": {
                         "basic": {
@@ -443,9 +450,11 @@
             "type": "object",
             "properties": {
                 "affinity": {
+                    "description": "Affinities for MZinga frontend service",
                     "type": "object"
                 },
                 "enabled": {
+                    "description": "Enable sample frontend for MZinga",
                     "type": "boolean"
                 },
                 "image": {
@@ -480,6 +489,7 @@
                             }
                         },
                         "class": {
+                            "description": "Name of the ingress class that will be used when creating frontend ingress resource.",
                             "type": "string"
                         }
                     }
@@ -513,63 +523,20 @@
             "type": "string"
         },
         "storageClasses": {
+            "description": "Storage classes to be created for MZinga deployment.",
             "type": "object",
             "properties": {
                 "aws": {
+                    "description": "Fill in this section with you Azure storage account name and access key. storageAccount: name: \"\" key: \"\" tier: cool: labels: {} annotations: {} provisioner: file.csi.azure.com parameters: shareAccessTier: Cool skuName: Standard_ZRS additionalParameters: {} reclaimPolicy: Delete mountOptions: - dir_mode=0777 - file_mode=0777 - uid=1000 - gid=1000 - mfsymlinks - nobrl allowVolumeExpansion: true volumeBindingMode: Immediate hot: labels: {} annotations: {} provisioner: file.csi.azure.com parameters: shareAccessTier: Hot skuName: Standard_ZRS additionalParameters: {} reclaimPolicy: Delete mountOptions: - dir_mode=0777 - file_mode=0777 - uid=1000 - gid=1000 - mfsymlinks - nobrl allowVolumeExpansion: true volumeBindingMode: Immediate",
                     "type": "object"
                 },
                 "azure": {
+                    "description": "Storage classes to use Azure file shares. Refer to this documentation: https://learn.microsoft.com/en-us/azure/aks/azure-csi-files-storage-provision",
                     "type": "object"
                 },
                 "google": {
-                    "type": "object",
-                    "properties": {
-                        "enterpriseMultishareRWX": {
-                            "type": "object",
-                            "properties": {
-                                "additionalParameters": {
-                                    "type": "object",
-                                    "properties": {
-                                        "network": {
-                                            "type": "string"
-                                        }
-                                    }
-                                },
-                                "allowVolumeExpansion": {
-                                    "type": "boolean"
-                                },
-                                "mountOptions": {
-                                    "type": "array"
-                                },
-                                "parameters": {
-                                    "type": "object",
-                                    "properties": {
-                                        "instanceStorageclassLabel": {
-                                            "type": "string"
-                                        },
-                                        "maxVolumeSize": {
-                                            "type": "string"
-                                        },
-                                        "multishare": {
-                                            "type": "string"
-                                        },
-                                        "tier": {
-                                            "type": "string"
-                                        }
-                                    }
-                                },
-                                "provisioner": {
-                                    "type": "string"
-                                },
-                                "reclaimPolicy": {
-                                    "type": "string"
-                                },
-                                "volumeBindingMode": {
-                                    "type": "string"
-                                }
-                            }
-                        }
-                    }
+                    "description": "Storage classes to use Google Filestore. refer to this documentation: https://cloud.google.com/filestore/docs/csi-driver#storage-class",
+                    "type": "object"
                 }
             }
         },
@@ -871,12 +838,14 @@
             "type": "object",
             "properties": {
                 "affinity": {
+                    "description": "Affinities for MZinga websocket service",
                     "type": "object"
                 },
                 "customization": {
                     "type": "object"
                 },
                 "enabled": {
+                    "description": "Enable WebSocket deployment",
                     "type": "boolean"
                 },
                 "image": {

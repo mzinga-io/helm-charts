@@ -12,9 +12,7 @@ on:
     paths:
       - charts/mzinga/**
 
-
 jobs:
-
   helm:
     name: "Lint, test and update version of Helm chart."
     runs-on: [self-hosted]
@@ -23,7 +21,7 @@ jobs:
       contents: write
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v5.0.1
+        uses: actions/checkout@v6.0.0
         with:
           fetch-depth: 0
       - uses: azure/setup-helm@v4.3.1
@@ -42,13 +40,13 @@ jobs:
         uses: actions/setup-dotnet@v5
         if: steps.list-changed.outputs.changed == 'true'
         with:
-          dotnet-version: '8.0.x'
+          dotnet-version: "8.0.x"
 
       - uses: gittools/actions/gitversion/setup@v1
         id: install-gitversion
         if: steps.list-changed.outputs.changed == 'true'
         with:
-          versionSpec: '5.x'
+          versionSpec: "5.x"
       - id: gitversion
         uses: gittools/actions/gitversion/execute@v1
         if: steps.list-changed.outputs.changed == 'true'
@@ -56,7 +54,7 @@ jobs:
         run: yq e -i '.version = "${{ steps.gitversion.outputs.MajorMinorPatch }}"' charts/mzinga/Chart.yaml
       - name: install helm unittest plugin
         if: steps.list-changed.outputs.changed == 'true'
-        run: helm plugin install https://github.com/helm-unittest/helm-unittest.git --version 1.0.1
+        run: helm plugin install https://github.com/helm-unittest/helm-unittest.git --version 1.0.1 --verify=false
 
       - name: Run chart-testing (lint)
         run: ct lint --config .github/workflows/chart-testing/ct.yaml
@@ -74,7 +72,7 @@ jobs:
     outputs:
       version: ${{ steps.gitversion.outputs.MajorMinorPatch }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
           fetch-tags: true
@@ -82,12 +80,12 @@ jobs:
         id: setup-dotnet
         uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: '8.0.x'
+          dotnet-version: "8.0.x"
 
       - uses: gittools/actions/gitversion/setup@v1
         id: install-gitversion
         with:
-          versionSpec: '5.x'
+          versionSpec: "5.x"
       - id: gitversion
         uses: gittools/actions/gitversion/execute@v1
 
@@ -112,7 +110,7 @@ jobs:
     if: ${{ github.event_name != 'pull_request' && needs.tag.result == 'success'}}
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 

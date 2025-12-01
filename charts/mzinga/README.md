@@ -1,6 +1,6 @@
 # mzinga
 
-![Version: 0.5.80](https://img.shields.io/badge/Version-0.5.80-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.3.1](https://img.shields.io/badge/AppVersion-0.3.1-informational?style=flat-square)
+![Version: 0.5.85](https://img.shields.io/badge/Version-0.5.85-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.3.1](https://img.shields.io/badge/AppVersion-0.3.1-informational?style=flat-square)
 
 A Helm chart for Kubernetes to deploy an MZinga instance.
 
@@ -101,7 +101,7 @@ Kubernetes: `>=1.25.0-0`
 | backoffice.name | string | `"mzinga-bo"` |  |
 | backoffice.replicas | int | `1` |  |
 | backoffice.image.repository | string | `"mzinga/payload/gh/backoffice"` |  |
-| backoffice.image.tag | string | `"0.3.46"` |  |
+| backoffice.image.tag | string | `"0.3.52"` |  |
 | backoffice.image.registry | string | `"newesissrl.azurecr.io"` |  |
 | backoffice.publicURL | string | `""` |  |
 | backoffice.tolerations | list | `[]` |  |
@@ -123,7 +123,7 @@ Kubernetes: `>=1.25.0-0`
 | backoffice.otel_console_exporter | string | `"1"` |  |
 | api.name | string | `"mzinga-api"` |  |
 | api.replicas | int | `1` |  |
-| api.image | object | `{"registry":"newesissrl.azurecr.io","repository":"mzinga/payload/gh/api","tag":"0.3.46"}` | Image specification for MZinga api. |
+| api.image | object | `{"registry":"newesissrl.azurecr.io","repository":"mzinga/payload/gh/api","tag":"0.3.54"}` | Image specification for MZinga api. |
 | api.publicURL | string | `""` |  |
 | api.api_key | string | `""` |  |
 | api.tolerations | list | `[]` |  |

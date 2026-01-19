@@ -129,7 +129,7 @@ jobs:
 
       - name: Update Helm chart docs
         id: update-docs
-        uses: losisin/helm-docs-github-action@v1.7.0
+        uses: losisin/helm-docs-github-action@v1.7.1
         with:
           chart-search-root: "charts/mzinga"
           sort-values-order: "file"

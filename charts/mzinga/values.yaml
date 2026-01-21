@@ -112,7 +112,7 @@ backoffice:
   image:
     repository: mzinga/payload/gh/backoffice
     # renovate: image=mzinga-io/mzinga-apps
-    tag: "0.3.54"
+    tag: "0.3.58"
     registry: newesissrl.azurecr.io
   publicURL: ""
   tolerations: []
@@ -155,7 +155,7 @@ api:
   image:
     repository: mzinga/payload/gh/api
     # renovate: image=mzinga-io/mzinga-apps
-    tag: "0.3.54"
+    tag: "0.3.58"
     registry: newesissrl.azurecr.io
   publicURL: ""
   api_key: ""

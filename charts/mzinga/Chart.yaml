@@ -10,7 +10,7 @@ name: mzinga
 sources:
   - https://github.com/mzinga-io/helm-charts
   - https://github.com/mzinga-io/mzinga-apps
-version: "0.5.108"
+version: "0.5.111"
 # renovate: image=mzinga-io/mzinga-apps
 appVersion: "0.3.1"
 kubeVersion: ">=1.25.0-0"

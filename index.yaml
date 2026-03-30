@@ -3,6 +3,36 @@ entries:
   mzinga:
   - apiVersion: v2
     appVersion: 0.3.1
+    created: "2026-03-30T17:19:37.692215095Z"
+    dependencies:
+    - condition: common.enabled
+      name: common
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - newesis-common
+      version: 2.38.0
+    description: A Helm chart for Kubernetes to deploy an MZinga instance.
+    digest: 8083ac56841316035e072c18e09e814617b897af49935635d0ad14adde940f8e
+    home: https://github.com/mzinga-io/mzinga-apps
+    icon: https://www.newesis.com/wp-content/uploads/2019/05/cropped-newesis.png
+    keywords:
+    - mzinga
+    - newesis
+    kubeVersion: '>=1.25.0-0'
+    maintainers:
+    - email: contact@newesis.com
+      name: Newesis Team
+      url: https://www.newesis.com/#:~:text=as%2Da%2Dservice-,Our%20People
+    name: mzinga
+    sources:
+    - https://github.com/mzinga-io/helm-charts
+    - https://github.com/mzinga-io/mzinga-apps
+    type: application
+    urls:
+    - https://github.com/mzinga-io/helm-charts/releases/download/mzinga-0.5.133/mzinga-0.5.133.tgz
+    version: 0.5.133
+  - apiVersion: v2
+    appVersion: 0.3.1
     created: "2026-03-27T14:36:01.067259534Z"
     dependencies:
     - condition: common.enabled
@@ -841,4 +871,4 @@ entries:
     urls:
     - https://github.com/mzinga-io/helm-charts/releases/download/mzinga-0.5.18/mzinga-0.5.18.tgz
     version: 0.5.18
-generated: "2026-03-27T14:36:01.06775714Z"
+generated: "2026-03-30T17:19:37.692491196Z"

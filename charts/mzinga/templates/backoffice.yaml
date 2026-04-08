@@ -63,19 +63,22 @@ spec:
             httpGet:
               path: /probes/backoffice/health
               port: {{ .Values.containerPort | default 3000 }}
-            initialDelaySeconds: 5
+            initialDelaySeconds: 10
+            timeoutSeconds: 10
             periodSeconds: 30
           readinessProbe:
             httpGet:
               path: /probes/ready
               port: {{ .Values.containerPort | default 3000 }}
-            initialDelaySeconds: 5
+            initialDelaySeconds: 10
+            timeoutSeconds: 10
             periodSeconds: 30
           startupProbe:
             httpGet:
               path: /probes/startup
               port: {{ .Values.containerPort | default 3000 }}
-            initialDelaySeconds: 5
+            initialDelaySeconds: 10
+            timeoutSeconds: 10
             periodSeconds: 30
           volumeMounts:
           - mountPath: "/app/{{ .Values.tenant.name }}"

@@ -24,7 +24,7 @@ jobs:
         uses: actions/checkout@v6.0.2
         with:
           fetch-depth: 0
-      - uses: azure/setup-helm@v4.3.1
+      - uses: azure/setup-helm@v5
         id: install-helm
       - name: Set up chart-testing
         uses: helm/chart-testing-action@v2.8.0
@@ -139,7 +139,7 @@ jobs:
           git-push: true
 
       - name: Install Helm
-        uses: azure/setup-helm@v4.3.1
+        uses: azure/setup-helm@v5
 
       - name: Add Helm dependency repos
         run: |

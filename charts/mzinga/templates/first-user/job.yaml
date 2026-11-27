@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
       - name: create-first-user
-        image: ubuntu:20.04
+        image: ubuntu:22.04
         envFrom:
         - secretRef:
             name: {{ .Values.first_user_hook.name }}-secrets

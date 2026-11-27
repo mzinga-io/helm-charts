@@ -12,6 +12,10 @@ on:
     paths:
       - charts/mzinga/**
 
+env:
+  # GitVersion 7 telemetry opt-out
+  DO_NOT_TRACK: "1"
+
 jobs:
   helm:
     name: "Lint, test and update version of Helm chart."
@@ -40,21 +44,21 @@ jobs:
         uses: actions/setup-dotnet@v6
         if: steps.list-changed.outputs.changed == 'true'
         with:
-          dotnet-version: "10.0.x"
+          dotnet-version: "11.0.x"
 
-      - uses: gittools/actions/gitversion/setup@v1
+      - uses: gittools/actions/gitversion/setup@v5.0.0
         id: install-gitversion
         if: steps.list-changed.outputs.changed == 'true'
         with:
-          versionSpec: "5.x"
+          versionSpec: "7.0.x"
       - id: gitversion
-        uses: gittools/actions/gitversion/execute@v1
+        uses: gittools/actions/gitversion/execute@v5.0.0
         if: steps.list-changed.outputs.changed == 'true'
       - if: steps.list-changed.outputs.changed == 'true'
-        run: yq e -i '.version = "${{ steps.gitversion.outputs.MajorMinorPatch }}"' charts/mzinga/Chart.yaml
+        run: yq e -i '.version = "${{ steps.gitversion.outputs.majorMinorPatch }}"' charts/mzinga/Chart.yaml
       - name: install helm unittest plugin
         if: steps.list-changed.outputs.changed == 'true'
-        run: helm plugin install https://github.com/helm-unittest/helm-unittest.git --version 1.0.1 --verify=false
+        run: helm plugin install https://github.com/helm-unittest/helm-unittest.git --version 1.2.1 --verify=false
 
       - name: Run chart-testing (lint)
         run: ct lint --config .github/workflows/chart-testing/ct.yaml
@@ -70,7 +74,7 @@ jobs:
     permissions:
       contents: write
     outputs:
-      version: ${{ steps.gitversion.outputs.MajorMinorPatch }}
+      version: ${{ steps.gitversion.outputs.majorMinorPatch }}
     steps:
       - uses: actions/checkout@v7
         with:
@@ -80,14 +84,14 @@ jobs:
         id: setup-dotnet
         uses: actions/setup-dotnet@v6
         with:
-          dotnet-version: "10.0.x"
+          dotnet-version: "11.0.x"
 
-      - uses: gittools/actions/gitversion/setup@v1
+      - uses: gittools/actions/gitversion/setup@v5.0.0
         id: install-gitversion
         with:
-          versionSpec: "5.x"
+          versionSpec: "7.0.x"
       - id: gitversion
-        uses: gittools/actions/gitversion/execute@v1
+        uses: gittools/actions/gitversion/execute@v5.0.0
 
       - name: Set up Git user
         run: |
@@ -96,7 +100,7 @@ jobs:
 
       - name: Push Git tag
         run: |
-          VERSION=mzinga-${{ steps.gitversion.outputs.MajorMinorPatch }}
+          VERSION=mzinga-${{ steps.gitversion.outputs.majorMinorPatch }}
           git tag $VERSION
           git push origin $VERSION
 

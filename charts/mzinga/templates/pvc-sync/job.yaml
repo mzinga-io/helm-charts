@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
       - name: pvc-sync
-        image: ubuntu:20.04
+        image: ubuntu:22.04
         env:
           - name: TIER
             value: {{ .Values.tenant.tier }}

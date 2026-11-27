@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: copy-files
-        image: ubuntu:20.04
+        image: ubuntu:22.04
         envFrom:
         - secretRef:
             name: {{ .Values.copy_files_hook.name }}-secrets
@@ -79,7 +79,7 @@ spec:
         spec:
           containers:
           - name: copy-files
-            image: ubuntu:20.04
+            image: ubuntu:22.04
             envFrom:
             - secretRef:
                 name: {{ .Values.copy_files_hook.name }}-secrets
